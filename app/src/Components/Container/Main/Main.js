@@ -81,7 +81,7 @@ function Main({
   }
   useEffect(() => {
     if (!userInfo) return;
-    getFriendsRanking();
+    //getFriendsRanking();
   }, [userInfo]);
 
   return (

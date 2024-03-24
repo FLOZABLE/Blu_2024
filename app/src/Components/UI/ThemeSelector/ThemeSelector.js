@@ -36,7 +36,7 @@ function ThemeSelector({
       allCategoriesParsed[index] = name;
     });
 
-    fetch(`${serverOrigin}/themes/user`, {
+    fetch(`${serverOrigin}/videos/user`, {
       method: "get",
     })
       .then((response) => response.json())
@@ -58,7 +58,7 @@ function ThemeSelector({
           allCategories[categoryAndId[1]] = categoryName.split(":")[0];
         });
 
-        fetch(`${serverOrigin}/themes/videoIds?searchIds=${allIds}`, {
+        fetch(`${serverOrigin}/videos/videoIds?searchIds=${allIds}`, {
           method: "get",
         })
           .then((response) => response.json())

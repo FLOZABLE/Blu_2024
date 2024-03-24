@@ -26,7 +26,6 @@ function ThemeCategoryBtn({ themeId, setResponse, themeCategory, bgColor = '#fff
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    alert(themeId);
     if (category === -2 || !themeId) return;
     fetch(`${serverOrigin}/videos/save`, {
       method: "post",
@@ -34,7 +33,7 @@ function ThemeCategoryBtn({ themeId, setResponse, themeCategory, bgColor = '#fff
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        themeId,
+        videoId: themeId,
         category,
       }),
     })
