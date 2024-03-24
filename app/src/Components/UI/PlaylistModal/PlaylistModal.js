@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styles from "./PlaylistModal.module.css";
 import SpotifyPlaylist from "../SpotifyPlaylist/SpotifyPlaylist";
 import YouTubePlaylist from "../YouTubePlaylist/YouTubePlaylist";
-import { ResponseContext, UserInfoContext } from "../../../Contexts";
 
 const appOrigin = process.env.REACT_APP_LOCATION;
 const serverOrigin = process.env.REACT_APP_ORIGIN;
 
-function PlaylistModal({}) {
-  const {userInfo} = useContext(UserInfoContext);
-  const {setResponse} = useContext(ResponseContext);
-  
+function PlaylistModal({ userInfo, setResponse }) {
+
   const [playlistType, setPlaylistType] = useState(-1);
   const [playlistEl, setPlaylistEl] = useState(<div></div>);
   const [urlParams, setUrlParams] = useSearchParams("");

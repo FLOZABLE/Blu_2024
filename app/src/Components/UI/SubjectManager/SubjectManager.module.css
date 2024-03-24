@@ -1,0 +1,22 @@
+.SubjectManager {
+    margin-top: 1.563rem;
+    background-color: transparent;
+}
+
+.SubjectManager .title {
+  width: 50%;
+  background-color: transparent;
+}
+
+.SubjectManager > div {
+  margin-bottom: 0.625rem;
+  background-color: transparent;
+}
+
+.SubjectManager .title>div{
+  font-size: 120%;
+  font-weight: 800;
+  left: 0;
+  right: 0;
+  margin-left: -1rem;
+}
