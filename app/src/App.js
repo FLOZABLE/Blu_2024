@@ -545,7 +545,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/study"
+          path="/dashboard/workout"
           element={
             <div style={{ zIndex: 5, position: 'relative' }}>
               <HelmetProvider>

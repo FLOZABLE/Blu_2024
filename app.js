@@ -37,8 +37,12 @@ const sessionMiddleWare = session({
 //const mainRouter = require("./Router/main");
 
 //API
+
+module.exports = { server, sessionMiddleWare };
+
+const { io } = require("./socket");
+
 const accountAPI = require("./API/account");
-const aiAPI = require("./API/ai");
 const chatAPI = require("./API/chat");
 const friendsAPI = require("./API/friends");
 const groupsAPI = require("./API/groups");
@@ -46,24 +50,19 @@ const planAPI = require("./API/plan");
 const videosAPI = require("./API/videos");
 const workoutAPI = require("./API/workout");
 
+app.set('socketio', io);
+app.use(logger('dev'));
+app.use(cookieParser(process.env.SECRET_ID));
+app.use(sessionMiddleWare);
+
 
 app.use('/account', accountAPI);
-app.use("/ai", aiAPI);
 app.use("/chat", chatAPI);
 app.use("/friends",friendsAPI);
 app.use("/groups",groupsAPI);
 app.use("/plans",planAPI);
 app.use("/video",videosAPI);
 app.use("/workout",workoutAPI);
-
-module.exports = { server, sessionMiddleWare };
-
-const { io } = require("./socket");
-const { group } = require('console');
-app.set('socketio', io);
-app.use(logger('dev'));
-app.use(cookieParser(process.env.SECRET_ID));
-app.use(sessionMiddleWare);
 
 console.log(process.env.NODE_ENV)
 server.listen(process.env.PORT, process.env.IP, () => {

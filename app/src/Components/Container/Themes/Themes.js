@@ -105,12 +105,12 @@ function Themes({
       />
       <div className={`Main`}>
         <div className="title">
-          Themes
+          Videos
         </div>
         <div className={styles.Themes}>
           <div className={styles.box} id={styles.likedList}>
             <div className={styles.title}>
-              <h1>Theme of the Week!</h1>
+              <h1>Video of the Week!</h1>
             </div>
             {rankedThemes.length ?
               <Swiper
@@ -188,7 +188,7 @@ function Themes({
                   value={sortOpt}
                 />
                 <BlobBtn
-                  name={"+ Upload theme!"}
+                  name={"+ Upload Video!"}
                   setClicked={setIsCreateThemeModal}
                   color1={"#fff"}
                   color2={"var(--purple2)"}

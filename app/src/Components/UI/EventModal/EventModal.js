@@ -42,82 +42,6 @@ function EventModal({
   const dragRef = useRef(null);
   const location = useLocation();
 
-  useEffect(() => {
-    if (!searchParams) return;
-
-    const tutorial = searchParams.get("tutorial");
-    if (tutorial && parseInt(tutorial) === 2) {
-      setTimeout(() => {
-        if (!planModal.opened) {
-          searchParams.delete('tutorial');
-          setSearchParams(searchParams);
-          return;
-        }
-
-        setPlanModal(prev => ({
-          ...prev,
-          title: 'example',
-          description: 'example'
-        }))
-
-        const { width, top, left, height, bottom } = eventModalRef.current.getBoundingClientRect();
-        tutorialBoxRef.current.style.left = left - 25 + 'px';
-        tutorialBoxRef.current.style.top = top - 25 + 'px';
-        tutorialBoxRef.current.style.width = width + 50 + 'px';
-        tutorialBoxRef.current.style.height = height + 50 + 'px';
-
-        tutorialTextRef.current.style.top = top - 70 + 'px';
-        tutorialTextRef.current.style.left = left - 25 + 'px';
-        tutorialTextRef.current.innerText = "Enter the event information!";
-
-        setTimeout(() => {
-          setSearchParams({ ...searchParams, tutorial: 3 })
-        }, 5000);
-      }, 500);
-      /* hole.style.height = top + 'px'; */
-    } else if (tutorial && parseInt(tutorial) === 3) {
-      setTimeout(() => {
-        if (!planModal.opened) {
-          searchParams.delete('tutorial');
-          setSearchParams(searchParams);
-          return;
-        }
-
-        const { width, top, left, height } = addSubjectRef.current.getBoundingClientRect();
-        tutorialBoxRef.current.style.left = left - 10 + 'px';
-        tutorialBoxRef.current.style.top = top - 9 + 'px';
-        tutorialBoxRef.current.style.width = width + 10 + 'px';
-        tutorialBoxRef.current.style.height = height + 20 + 'px';
-
-        tutorialTextRef.current.style.top = top + height + 20 + 'px';
-        tutorialTextRef.current.style.left = left - 10 + 'px';
-        tutorialTextRef.current.innerText = "Add a subject!";
-      }, 500);
-    } else if (tutorial && parseInt(tutorial) === 5) {
-
-      submitRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      const { left } = submitRef.current.getBoundingClientRect();
-      const eventModalDimmensions = eventModalRef.current.getBoundingClientRect();
-      const top2 = eventModalDimmensions.top;
-
-      tutorialTextRef.current.style.top = top2 - 30 + 'px';
-      tutorialTextRef.current.style.left = left + 'px';
-      tutorialTextRef.current.innerText = "Save the plan!";
-
-      function moveTutorialBoxes() {
-        const { width, top, left, height } = submitRef.current.getBoundingClientRect();
-
-        tutorialBoxRef.current.style.left = left + 50 + 'px';
-        tutorialBoxRef.current.style.top = top - 10 + 'px';
-        tutorialBoxRef.current.style.width = width - 100 + 'px';
-        tutorialBoxRef.current.style.height = height + 20 + 'px';
-      }
-      setTimeout(moveTutorialBoxes, 2000);
-    }
-  }, [searchParams]);
-
-
   const submit = () => {
     if (!planModal.editable) {
       setResponse({ success: false, reason: "This event is view only" });
@@ -337,7 +261,7 @@ function EventModal({
               <div className={styles.iconWrapper}>
                 <FontAwesomeIcon icon={faBook} />
                 <div className={styles.hoverEl}>
-                  <p>Select Subject</p>
+                  <p>Select Workout</p>
                 </div>
               </div>
               <div className={styles.contentWrapper}>
@@ -362,7 +286,7 @@ function EventModal({
                 <p>OR</p>
                 <div className={styles.addSubjectWrapper} ref={addSubjectRef}>
                   <BlobBtn
-                    name={"Add Subject"}
+                    name={"Add Workout"}
                     setClicked={() => {
                       setIsAddSubjectModal(true);
                       const tutorial = searchParams.get("tutorial");

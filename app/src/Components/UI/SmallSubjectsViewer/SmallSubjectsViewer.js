@@ -40,7 +40,7 @@ function SmallSubjectsViewer({ subjects }) {
           </ResponsiveContainer>
         </div>
         : <div className={styles.noSubjects}>
-          <Link to={"/dashboard/study"}>
+          <Link to={"/dashboard/workout"}>
             Study to see stats!
           </Link>
         </div>

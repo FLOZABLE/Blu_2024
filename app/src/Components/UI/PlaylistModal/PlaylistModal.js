@@ -17,7 +17,7 @@ function PlaylistModal({ userInfo, setResponse }) {
     if (!userInfo) return;
 
     const token = urlParams.get("code");
-    const redirectURI=`${appOrigin}/dashboard/study`;
+    const redirectURI=`${appOrigin}/dashboard/workout`;
 
     if (!token) return;
 

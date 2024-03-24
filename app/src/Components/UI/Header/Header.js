@@ -234,9 +234,9 @@ function Header({
           </div>
         </Link>
         <div className={styles.headerEl}>
-          <Link to={tutorial ? `/dashboard/study?tutorial=${tutorial}` : "/dashboard/study"} id="tutorial-6" ref={studyBtnRef}>
+          <Link to={tutorial ? `/dashboard/workout?tutorial=${tutorial}` : "/dashboard/workout"} id="tutorial-6" ref={studyBtnRef}>
             <div className={styles.StudyButton} id="tutorial-6">
-              Study
+              Work Out
             </div>
           </Link>
         </div>

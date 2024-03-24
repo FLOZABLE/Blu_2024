@@ -61,7 +61,7 @@ function AddSubjectModal({
   };
 
   const submit = useCallback(() => {
-    fetch(`${serverOrigin}/study/add-subject`, {
+    fetch(`${serverOrigin}/workout/add-workout`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -122,7 +122,7 @@ function AddSubjectModal({
               input={name}
               handleInput={handleNameInput}
               icon={faBook}
-              placeHolder={"Subject Name"}
+              placeHolder={"Workout Name"}
               type={"text"}
             />
           </div>
@@ -132,7 +132,6 @@ function AddSubjectModal({
             isSelectIcon={isSelectIcon}
             setIsSelectIcon={setIsSelectIcon}
             setIsSelectColor={setIsSelectColor}
-            id="tutorial-4"
           />
           <ColorPalette
             setSelectedColor={setSelectedColor}
@@ -140,7 +139,6 @@ function AddSubjectModal({
             isSelectColor={isSelectColor}
             setIsSelectColor={setIsSelectColor}
             setIsSelectIcon={setIsSelectIcon}
-            id="tutorial-4"
           />
           <div className={styles.submit}>
             <BlobBtn name={"SUBMIT"} setClicked={submit} id="tutorial-4" />

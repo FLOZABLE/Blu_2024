@@ -9,6 +9,13 @@ import {
   Globe,
   Workout,
   Alert,
+  Dumbell1,
+  Cycle1,
+  Arm,
+  Yoga,
+  Gym,
+  Dumbell3,
+  Abs,
 } from "../../../utils/svgs";
 
 function SelectIcon({
@@ -35,7 +42,7 @@ function SelectIcon({
           }}
         >
           {!selectedIcon.el ? (
-            <p>Select Subject's Icon!</p>
+            <p>Select Workout Icon!</p>
           ) : (
             <p>Selected Icon: </p>
           )}
@@ -57,9 +64,9 @@ function SelectIcon({
           id={id}
           onClick={() => {
             handleSelect({
-              name: "WritePen",
+              name: "Dumbell1",
               el: (
-                <WritePen
+                <Dumbell1
                   width={"2.5rem"}
                   height={"2.5rem"}
                   fill={"#000"}
@@ -69,7 +76,7 @@ function SelectIcon({
             });
           }}
         >
-          <WritePen
+          <Dumbell1
             width={"2.5rem"}
             height={"2.5rem"}
             fill={"#000"}
@@ -81,9 +88,9 @@ function SelectIcon({
           id={id}
           onClick={() => {
             handleSelect({
-              name: "Book",
+              name: "Cycle1",
               el: (
-                <Book
+                <Cycle1
                   width={"2.5rem"}
                   height={"2.5rem"}
                   fill={"#000"}
@@ -93,7 +100,7 @@ function SelectIcon({
             });
           }}
         >
-          <Book
+          <Cycle1
             width={"2.5rem"}
             height={"2.5rem"}
             fill={"#000"}
@@ -105,9 +112,9 @@ function SelectIcon({
           id={id}
           onClick={() => {
             handleSelect({
-              name: "Microscope",
+              name: "Arm",
               el: (
-                <Microscope
+                <Arm
                   width={"2.5rem"}
                   height={"2.5rem"}
                   fill={"#000"}
@@ -117,7 +124,7 @@ function SelectIcon({
             });
           }}
         >
-          <Microscope
+          <Arm
             width={"2.5rem"}
             height={"2.5rem"}
             fill={"#000"}
@@ -129,9 +136,9 @@ function SelectIcon({
           id={id}
           onClick={() => {
             handleSelect({
-              name: "Article",
+              name: "Yoga",
               el: (
-                <Article
+                <Yoga
                   width={"2.5rem"}
                   height={"2.5rem"}
                   fill={"#000"}
@@ -141,7 +148,7 @@ function SelectIcon({
             });
           }}
         >
-          <Article
+          <Yoga
             width={"2.5rem"}
             height={"2.5rem"}
             fill={"#000"}
@@ -153,9 +160,9 @@ function SelectIcon({
           id={id}
           onClick={() => {
             handleSelect({
-              name: "Coding",
+              name: "Gym",
               el: (
-                <Coding
+                <Gym
                   width={"2.5rem"}
                   height={"2.5rem"}
                   fill={"#000"}
@@ -165,7 +172,7 @@ function SelectIcon({
             });
           }}
         >
-          <Coding
+          <Gym
             width={"2.5rem"}
             height={"2.5rem"}
             fill={"#000"}
@@ -177,9 +184,9 @@ function SelectIcon({
           id={id}
           onClick={() => {
             handleSelect({
-              name: "Globe",
+              name: "Dumbell3",
               el: (
-                <Globe
+                <Dumbell3
                   width={"2.5rem"}
                   height={"2.5rem"}
                   fill={"#000"}
@@ -189,7 +196,7 @@ function SelectIcon({
             });
           }}
         >
-          <Globe
+          <Dumbell3
             width={"2.5rem"}
             height={"2.5rem"}
             fill={"#000"}
@@ -201,9 +208,9 @@ function SelectIcon({
           id={id}
           onClick={() => {
             handleSelect({
-              name: "Workout",
+              name: "Abs",
               el: (
-                <Workout
+                <Abs
                   width={"2.5rem"}
                   height={"2.5rem"}
                   fill={"#000"}
@@ -213,7 +220,7 @@ function SelectIcon({
             });
           }}
         >
-          <Workout
+          <Abs
             width={"2.5rem"}
             height={"2.5rem"}
             fill={"#000"}

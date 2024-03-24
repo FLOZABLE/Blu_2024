@@ -116,7 +116,7 @@ function ActivityViewer({ subjects }) {
         )
       }) : 
       <div className={styles.noActivity}>
-        <Link to={"/dashboard/study"} >Study to view your activity</Link>
+        <Link to={"/dashboard/workout"} >Study to view your activity</Link>
       </div>
     }
     </div>

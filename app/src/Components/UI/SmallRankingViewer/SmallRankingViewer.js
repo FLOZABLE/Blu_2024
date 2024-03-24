@@ -10,7 +10,7 @@ const serverOrigin = process.env.REACT_APP_ORIGIN;
 function SmallRankingViewer({ userInfo }) {
   const [rankingDisp, setRankingDisp] = useState(<div className={styles.noStudy}>
     <p><Link
-      to="/dashboard/study"
+      to="/dashboard/workout"
     >Study</Link> to see your today's ranking</p>
   </div>);
   const [threeUsers, setThreeUsers] = useState([]);

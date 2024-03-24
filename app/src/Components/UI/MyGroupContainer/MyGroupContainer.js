@@ -95,7 +95,7 @@ function MyGroupContainer({ group, isFocus, userInfo, isMic, isCam, setIsChatMod
         </div>
         <div className={styles.buttons}>
           <div>
-            <Link to={`/dashboard/study?group=${group.group_id}`}>
+            <Link to={`/dashboard/workout?group=${group.group_id}`}>
               <button>
               Go to Group
               </button>

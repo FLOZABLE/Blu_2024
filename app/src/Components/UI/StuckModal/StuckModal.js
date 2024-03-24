@@ -5,7 +5,7 @@ import styles from "./Stuckmodal.module.css";
 function StuckModal() {
   return (
     <div className={styles.StuckModalContainer}>
-      <Link to="/dashboard/study">
+      <Link to="/dashboard/workout">
         <button>
           <p>Go Study</p>
         </button>

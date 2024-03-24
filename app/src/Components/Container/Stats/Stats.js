@@ -266,9 +266,9 @@ function Stats({
                   </ResponsiveContainer>
                   :
                   <Link
-                    to="/dashboard/study"
+                    to="/dashboard/workout"
                     className={styles.noChart}>
-                    <h3>Study to see stats!</h3>
+                    <h3>Workout to see stats!</h3>
                   </Link>
                 }
               </div>
@@ -277,14 +277,14 @@ function Stats({
                   <i>
                     <IconBook />
                   </i>
-                  Total Study Time {totalStudy}
+                  Total Workout Time {totalStudy}
                 </div>
-                <div className={styles.overflow}>
+{/*                 <div className={styles.overflow}>
                   <i>
                     <IconMonitor />
                   </i>
                   Website Usage Time {websitesUsage} / {websitesVisit} times
-                </div>
+                </div> */}
                 <div className={styles.overflow}>
                   <i>
                     <IconStatsChart />
@@ -335,74 +335,6 @@ function Stats({
                 </LineChart>
               </ResponsiveContainer>
             </div>
-          </div>
-          <div className={styles.bigBox} id={styles.othersUsage}>
-            <h3>Website Usage</h3>
-            {websites.length
-                ?
-                <div className={styles.contents}>
-                <div className={styles.chartWrapper}>
-                  <h3>Visits</h3>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Tooltip content={<PieCustomTooltip />} />
-                      <Pie
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        data={JSON.parse(JSON.stringify(websites)).sort((a, b) => b.v - a.v).map((website, i) => {
-                          const { v, d } = website;
-                          const labelVal = `${v} times`;
-                          const fill = coldColorsList[i % (coldColorsList.length)];
-                          return { ...website, labelVal, name: d, fill };
-                        })}
-                        dataKey={"v"}
-                        outerRadius={200}
-                        innerRadius={150}
-                        fill="green"
-                        label={pieCustomLabel}
-                        minAngle={3}
-                      >
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className={styles.chartWrapper}>
-                  <h3>Time</h3>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Tooltip content={<PieCustomTooltip />} />
-                      <Pie
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        data={JSON.parse(JSON.stringify(websites)).sort((a, b) => b.t - a.t).map((website, i) => {
-                          const { t, d } = website;
-                          const { value, type } = secondConverter(t);
-                          const labelVal = `${value} ${type}`;
-                          const fill = coldColorsList[i % (coldColorsList.length)];
-                          return { ...website, labelVal, name: d, fill };
-                        })}
-                        dataKey={"t"}
-                        outerRadius={200}
-                        innerRadius={150}
-                        fill="green"
-                        label={pieCustomLabel}
-                        minAngle={3}
-                      >
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-                :
-                <a
-                target='blank'
-                  href="https://chromewebstore.google.com/detail/flozable-tab-monitor/cmbdaanokelibhphiidlikongdoandlj"
-                  className={styles.noChart}>
-                  <h3>Use chrome extension to see website usage!</h3>
-                </a>
-              }
           </div>
         </div>
         </div>

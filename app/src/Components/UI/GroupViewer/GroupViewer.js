@@ -67,7 +67,7 @@ function GroupViewer({ groupInfo, userInfo }) {
         {
           groupInfo?.members.split(",").includes(userInfo?.user_id) ?
             <Link 
-              to={`/dashboard/study?group=${groupInfo?.group_id}`}
+              to={`/dashboard/workout?group=${groupInfo?.group_id}`}
             className={styles.joinBtn}
             >
               Join the session

@@ -67,7 +67,7 @@ function SpotifyPlaylist({ userInfo, setResponse }) {
             :
             <p>Connect your Spotify account to bring your playlists!</p>
         }
-        <SpotifyAuthBtn setResponse={setResponse} redirectURI={`${appOrigin}/dashboard/study`} userInfo={userInfo} />
+        <SpotifyAuthBtn setResponse={setResponse} redirectURI={`${appOrigin}/dashboard/workout`} userInfo={userInfo} />
         {
           spotifyLoggedIn ?
             <DropDownButton

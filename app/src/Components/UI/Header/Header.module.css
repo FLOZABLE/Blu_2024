@@ -82,13 +82,15 @@
 
 .headerEl .StudyButton {  
   background-color: rgb(209, 255, 216);
-  border-radius: 100rem;
-  width: 4rem;
   height: 4rem;
   color: rgb(0, 213, 71);
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
+  width: fit-content;
+  padding: 0rem 2rem;
+  border-radius: 2rem;
 } 
 
 .Header .divider {

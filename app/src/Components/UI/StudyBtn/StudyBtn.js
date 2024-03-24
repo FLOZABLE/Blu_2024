@@ -5,7 +5,7 @@ import React from 'react';
 function StudyBtn() {
   return (
     <Link
-      to="/dashboard/study"
+      to="/dashboard/workout"
       className={styles.StudyBtn}
     >
       <h3>Study Now</h3>
