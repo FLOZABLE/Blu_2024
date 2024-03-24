@@ -5,7 +5,7 @@ const pool = require("../model/pool");
 const redisClient = require("../model/redis");
 const crypto = require("crypto");
 const { isValidJSON, hashing, generateRandomId, autoSignin } = require("../tools");
-const { timerCache, activeSubjectCache, groupCache, userCache } = require("../services/redisLoader");
+const { timerCache, activeWorkoutCache, groupCache, userCache } = require("../services/redisLoader");
 const { validateArray, validateStrictString, validateInteger, validateLength, validateHEX, validatePassword, validateBoolean, validateString } = require("../validate");
 const { DateTime } = require("luxon");
 const { mainIo } = require("../socket");
@@ -85,6 +85,8 @@ Router.post('/create-validate', async (req, res) => {
       if (!userInfo) {
         return res.send(responseCodes['no-user']);
       };
+
+      const { groups } = userInfo;
 
       groups.push(group_id);
       redisClient.hSet(`user:${userId}`, 'groups', groups.join(','));
@@ -208,7 +210,7 @@ Router.post('/join/:id', async (req, res) => {
       groups.push(groupId);
       redisClient.hSet(`user:${userId}`, 'groups', groups.join(','));
       //send user's study information to group members
-      const activeSubject = await activeSubjectCache(userId);
+      const activeWorkout = await activeWorkoutCache(userId);
       const userInfo = await userCache(userId);
       let timezoneOffset = 0;
       if (userInfo) {
@@ -217,7 +219,7 @@ Router.post('/join/:id', async (req, res) => {
       }
       let totalTime = await redisClient.zScore(`user:${userId}:dayTotal`, timezoneOffset);
       totalTime = totalTime === null ? 0 : totalTime;
-      mainIo.to(`${groupId}`).emit(`newMemberInfo`, { ...userInfo, totalTime, activeSubject });
+      mainIo.to(`${groupId}`).emit(`newMemberInfo`, { ...userInfo, totalTime, activeWorkout });
 
       //update cached value only if it exists
       const isCached = await redisClient.exists(`room:${groupId}`);
@@ -345,8 +347,8 @@ Router.get('/members', async (req, res) => {
           const { user_id } = member;
           let totalTime = await redisClient.zScore(`user:${user_id}:dayTotal`, timezoneOffset);
           totalTime = totalTime === null ? 0 : totalTime;
-          const activeSubject = await activeSubjectCache(user_id);
-          return { ...member, totalTime, activeSubject };
+          const activeWorkout = await activeWorkoutCache(user_id);
+          return { ...member, totalTime, activeWorkout };
         });
         const memberStudyData = await Promise.all(memberStudyDataPromises);
         res.send({ success: true, membersData: memberStudyData });
