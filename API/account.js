@@ -9,7 +9,7 @@ const webpush = require("web-push");
 const { DateTime } = require('luxon');
 const { hashing, autoSignin, generateRandomId, isValidTimeZone, deriveKey, randomIntInRange } = require("../tools");
 const { validateEmail, validateStrictString, validatePassword, validateURL, validateString, validateLength } = require("../validate");
-const { NotificationCache, usersCache, userCache, subjectsTimelineCache } = require('../services/redisLoader');
+const { NotificationCache, usersCache, userCache, workoutsTimelineCache } = require('../services/redisLoader');
 const { responseCodes } = require('../Constant');
 const upload = multer();
 
@@ -100,6 +100,7 @@ Router.post('/signin-authentication', async (req, res) => {
 
 Router.post('/signup-authentication', async (req, res) => {
   try {
+    console.log(req.body)
     const { email, name, password, timeZone } = req.body;
     if (!isValidTimeZone(timeZone)) {
       timeZone = 'UTC';
@@ -144,18 +145,18 @@ Router.post('/signup-authentication', async (req, res) => {
       iv: iv,
     };
     connection.query('INSERT INTO users SET ?', user);
-    //create default subject
-    const subjectId = generateRandomId(10);
+    //create default workout
+    const workoutId = generateRandomId(10);
     const datum_point = Math.floor(new Date().getTime() / 1000);
-    const subject = {
-      id: subjectId,
+    const workout = {
+      id: workoutId,
       name: 'others',
       user_id: userId,
       icon: 'others',
       color: '#000000',
       datum_point
     };
-    connection.query(`INSERT INTO subjects SET ?`, subject);
+    connection.query(`INSERT INTO workouts SET ?`, workout);
     req.session.regenerate((err) => {
       if (err) {
         console.log("Error regenerating session ID:", err);
@@ -173,6 +174,7 @@ Router.post('/signup-authentication', async (req, res) => {
     });
     res.send({ success: true });
   } catch (err) {
+    console.log(err);
     res.send({ success: false, reason: "Error" });
   };
 });
@@ -296,8 +298,8 @@ Router.get('/profile/:userId', async (req, res) => {
         friendsInfo.push(friendInfo);
       };
     }));
-    const subjectsInfo = await subjectsTimelineCache(targetUserId);
-    res.send({ success: true, userInfo, subjectsInfo, friendsInfo });
+    const workoutsInfo = await workoutsTimelineCache(targetUserId);
+    res.send({ success: true, userInfo, workoutsInfo, friendsInfo });
   } catch (err) {
     console.log(err);
   }

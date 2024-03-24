@@ -51,7 +51,7 @@ function SubjectToolManager({ subject, isSubjectToolManager, setIsSubjectToolMan
     })
     subjectToolString = subjectToolString.substring(0, subjectToolString.length - 1);
 
-    fetch(`${serverOrigin}/study/modify-subject-tools`, {
+    fetch(`${serverOrigin}/workout/modify-subject-tools`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",

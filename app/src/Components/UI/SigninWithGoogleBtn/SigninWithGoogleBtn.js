@@ -49,7 +49,7 @@ function SigninWithGoogleBtn({ infoText }) {
                             <path fill="none" d="M0 0h48v48H0z"></path>
                         </svg>
                     </div>
-                    <span class="gsi-material-button-contents">{infoText}</span>
+                    <span className="gsi-material-button-contents">{infoText}</span>
                 </div>
             </button>
         </div>

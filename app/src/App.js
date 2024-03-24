@@ -7,7 +7,6 @@ import Ranking from "./components/Container/Ranking/Ranking";
 import Groups from "./components/Container/Groups/Groups";
 import Study from "./components/Container/Study/Study";
 import Account from "./components/Container/Account/Account";
-import Challenge from "./components/Container/Challenge/Challenge";
 import "./App.css";
 import Sidebar from "./components/UI/Sidebar/Sidebar";
 import Header from "./components/UI/Header/Header";
@@ -23,7 +22,6 @@ import ChatsModal from "./components/UI/ChatsModal/ChatsModal";
 import Friends from "./components/Container/Friends/Friends";
 import { filterGroups } from "../src/utils/Tool";
 import Themes from "./components/Container/Themes/Themes";
-import ChallengeRooms from "./components/Container/ChallengeRooms/ChallengeRooms";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AccountModal from "./components/UI/AccountModal/AccountModal";
 import ReactGA from 'react-ga4';
@@ -147,7 +145,7 @@ function App() {
   }, [subjects]);
 
   const bringSubjects = useCallback(() => {
-    fetch(`${serverOrigin}/study/bring-subjects`, { method: "post" })
+    fetch(`${serverOrigin}/workout/bring-workouts`, { method: "post" })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -758,55 +756,6 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/challenge/*"
-          element={
-            <div>
-              <HelmetProvider>
-                <Helmet>
-                  <title>Challenge - FLOZABLE</title>
-                  <meta name="title" content="Challenge - FLOZABLE" />
-                  <meta name="description" content="Participate in educational challenges on FLOZABLE. Explore specific academic tasks, set goals, and track your progress as you compete and collaborate with other users." />
-
-                  <meta property="og:type" content="website" />
-                  <meta property="og:url" content="https://flozable.com/challenge" />
-                  <meta property="og:title" content="Challenge - FLOZABLE" />
-                  <meta property="og:description" content="Participate in educational challenges on FLOZABLE. Explore specific academic tasks, set goals, and track your progress as you compete and collaborate with other users." />
-                  <meta property="og:image" content="https://flozable.com/favicon.ico" />
-
-                  <meta property="twitter:card" content="summary_large_image" />
-                  <meta property="twitter:url" content="https://flozable.com/challenge" />
-                  <meta property="twitter:title" content="Challenge - FLOZABLE" />
-                  <meta property="twitter:description" content="Participate in educational challenges on FLOZABLE. Explore specific academic tasks, set goals, and track your progress as you compete and collaborate with other users." />
-                  <meta property="twitter:image" content="https://flozable.com/favicon.ico" />
-
-                  <meta name="keywords" content="educational challenges, academic tasks, goal setting, user collaboration" />
-                  <meta name="robots" content="index, follow" />
-                  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                  <meta name="language" content="English" />
-
-                </Helmet>
-              </HelmetProvider>
-              <Sidebar
-                isSidebarOpen={isSidebarOpen}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSidebarHovered={isHovered}
-                tutorialBoxRef={tutorialBoxRef}
-                tutorialTextRef={tutorialTextRef}
-              />
-              <Challenge
-                setIsSidebarOpen={setIsSidebarOpen}
-                isSidebarOpen={isSidebarOpen}
-                isSidebarHovered={isHovered}
-                userInfo={userInfo}
-                reset={reset}
-                subjects={subjects}
-                setResponse={setResponse}
-              />
-            </div>
-          }
-        />
-        <Route
           path="/dashboard/friends"
           element={
             <div>
@@ -902,54 +851,6 @@ function App() {
                 isSidebarOpen={isSidebarOpen}
                 isSidebarHovered={isHovered}
                 userInfo={userInfo}
-                setResponse={setResponse}
-              />
-            </div>
-          }
-        />
-        <Route
-          path="/dashboard/challenges"
-          element={
-            <div>
-              <HelmetProvider>
-                <Helmet>
-                  <title>Challenges - FLOZABLE</title>
-                  <meta name="title" content="Challenges - FLOZABLE" />
-                  <meta name="description" content="Join study challenges on FLOZABLE. Set goals, compete with others, and achieve new milestones in your academic journey. Stay motivated and track your progress with exciting challenges." />
-
-                  <meta property="og:type" content="website" />
-                  <meta property="og:url" content="https://flozable.com/challenges" />
-                  <meta property="og:title" content="Challenges - FLOZABLE" />
-                  <meta property="og:description" content="Join study challenges on FLOZABLE. Set goals, compete with others, and achieve new milestones in your academic journey. Stay motivated and track your progress with exciting challenges." />
-                  <meta property="og:image" content="https://flozable.com/favicon.ico" />
-
-                  <meta property="twitter:card" content="summary_large_image" />
-                  <meta property="twitter:url" content="https://flozable.com/challenges" />
-                  <meta property="twitter:title" content="Challenges - FLOZABLE" />
-                  <meta property="twitter:description" content="Join study challenges on FLOZABLE. Set goals, compete with others, and achieve new milestones in your academic journey. Stay motivated and track your progress with exciting challenges." />
-                  <meta property="twitter:image" content="https://flozable.com/favicon.ico" />
-
-                  <meta name="keywords" content="challenges, study goals, competition, milestones, academic journey, motivation" />
-                  <meta name="robots" content="index, follow" />
-                  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                  <meta name="language" content="English" />
-
-                </Helmet>
-              </HelmetProvider>
-              <Sidebar
-                isSidebarOpen={isSidebarOpen}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                isSidebarHovered={isHovered}
-                tutorialBoxRef={tutorialBoxRef}
-                tutorialTextRef={tutorialTextRef}
-              />
-              <ChallengeRooms
-                setIsSidebarOpen={setIsSidebarOpen}
-                isSidebarOpen={isSidebarOpen}
-                isSidebarHovered={isHovered}
-                userInfo={userInfo}
-                setUserInfo={setUserInfo}
                 setResponse={setResponse}
               />
             </div>

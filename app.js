@@ -6,6 +6,8 @@ const logger = require('morgan');
 const connectRedis = require('connect-redis');
 const cookieParser = require('cookie-parser');
 const server  = http.createServer(app);
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const session = require("express-session");
 
 if (process.env.NODE_ENV === 'development') {
@@ -52,15 +54,17 @@ const workoutAPI = require("./API/workout");
 
 app.set('socketio', io);
 app.use(logger('dev'));
+app.use(bodyParser.json());
 app.use(cookieParser(process.env.SECRET_ID));
 app.use(sessionMiddleWare);
+app.use(cors());
 
 
 app.use('/account', accountAPI);
 app.use("/chat", chatAPI);
-app.use("/friends",friendsAPI);
+app.use("/friend",friendsAPI);
 app.use("/groups",groupsAPI);
-app.use("/plans",planAPI);
+app.use("/plan",planAPI);
 app.use("/video",videosAPI);
 app.use("/workout",workoutAPI);
 

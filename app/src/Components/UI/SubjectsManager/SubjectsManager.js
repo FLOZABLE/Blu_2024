@@ -19,7 +19,7 @@ function SubjectsManager({ subjects, setSubjects, setResponse }) {
     if (!selectedSubject || !selectedSubject.submit) return;
 
     const { id, icon, color, name, tools } = selectedSubject;
-    fetch(`${serverOrigin}/study/modify-subject`, {
+    fetch(`${serverOrigin}/workout/modify-workout`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
