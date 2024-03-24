@@ -72,7 +72,7 @@ function ThemeContainer({
           ))}
         </div>
         <div className={styles.buttons} onClick={(e) => {e.stopPropagation()}}>
-          <GroupUrlBtn text={`${serverOrigin}/dashboard/themes?id=${theme?.id}`} />
+          <GroupUrlBtn text={`${serverOrigin}/dashboard/videos?id=${theme?.id}`} />
           <div>
             <ThemeCategoryBtn
               themeId={theme.id}
@@ -82,7 +82,7 @@ function ThemeContainer({
           </div>
           <div>
             <LikeBtn liked={liked} id={theme?.id} setResponse={setResponse}
-              url={`${serverOrigin}/themes/like/${theme?.id}`}
+              url={`${serverOrigin}/videos/like/${theme?.id}`}
             />
           </div>
         </div>

@@ -41,7 +41,7 @@ function Themes({
   };
 
   useEffect(() => {
-    fetch(`${serverOrigin}/themes`, {
+    fetch(`${serverOrigin}/videos`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -49,17 +49,18 @@ function Themes({
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data.success) {
-          data.themes.map(theme => {
+          data.videos.map(theme => {
             theme.likes = theme.likes === "" ? [] : theme.likes.split(",");
           })
-          setThemes(data.themes);
+          setThemes(data.videos);
         };
       })
       .catch((error) => console.error(error));
 
 
-    fetch(`${serverOrigin}/themes/user`, {
+    fetch(`${serverOrigin}/videos/user`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +69,7 @@ function Themes({
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          setUserThemes(data.themes.themes.split(","));
+          setUserThemes(data.videos.videos.split(","));
         };
       })
       .catch((error) => console.error(error));

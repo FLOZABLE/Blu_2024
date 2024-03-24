@@ -26,8 +26,9 @@ function ThemeCategoryBtn({ themeId, setResponse, themeCategory, bgColor = '#fff
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    alert(themeId);
     if (category === -2 || !themeId) return;
-    fetch(`${serverOrigin}/themes/save`, {
+    fetch(`${serverOrigin}/videos/save`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",

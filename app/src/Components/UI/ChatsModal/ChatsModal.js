@@ -40,6 +40,7 @@ function ChatsModal({
         if (data.success) {
           setChatRooms(data.rooms);
           setReadStatus(data.readStatus);
+          console.log(data.rooms);
         }
       })
       .catch((error) => console.error(error));

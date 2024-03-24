@@ -27,7 +27,7 @@ function CreateThemeModal({
   const modalRef = useRef(null);
 
   const submit = () => {
-    fetch(`${serverOrigin}/themes/create`, {
+    fetch(`${serverOrigin}/videos/create`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ function CreateThemeModal({
         setResponse(data);
         if (data.success) {
           setThemes(prev => [...prev,
-          data.themeInfo
+          data.videoInfo
           ])
         }
       })

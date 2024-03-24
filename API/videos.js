@@ -13,7 +13,8 @@ Router.get('/', async (req, res) => {
     const connection = pool.promise();
     const [videos] = await connection.query(`SELECT * FROM videos`);
     await Promise.all(videos.map(async (video) => {
-      const weekUsage = await redisClient.zmScore(`video:${video.id}:weekUsage`, ['0', '1', '2', '3', '4', '5', '6']);
+      //const weekUsage = await redisClient.zmScore(`video:${video.id}:weekUsage`, ['0', '1', '2', '3', '4', '5', '6']);
+      weekUsage = [1, 1, 1, 1, 1, 1, 1];
       video.weekUsage = 0;
       await Promise.all(weekUsage.map(dayTotal => {
         if (!dayTotal) return;
@@ -98,7 +99,7 @@ Router.post('/create', async (req, res) => {
       const connection = pool.promise();
       const id = generateRandomId(10);
       const videoInfo = { id, name, description, video_id: videoId, tags: tags.join(','), user_id: userId };
-      connection.query(`INSERT INTO video SET ?`, videoInfo);
+      connection.query(`INSERT INTO videos SET ?`, videoInfo);
       res.send({ success: true, msg: 'New video uploaded!', videoInfo: { ...videoInfo, likes: '' } });
     } catch (error) {
       console.log(error)

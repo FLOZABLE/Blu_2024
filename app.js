@@ -5,7 +5,7 @@ const http = require('http');
 const logger = require('morgan');
 const connectRedis = require('connect-redis');
 const cookieParser = require('cookie-parser');
-const server  = http.createServer(app);
+const server = http.createServer(app);
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
@@ -64,11 +64,11 @@ app.use(cors());
 
 app.use('/account', accountAPI);
 app.use("/chat", chatAPI);
-app.use("/friend",friendsAPI);
-app.use("/groups",groupsAPI);
-app.use("/plan",planAPI);
-app.use("/video",videosAPI);
-app.use("/workout",workoutAPI);
+app.use("/friend", friendsAPI);
+app.use("/groups", groupsAPI);
+app.use("/plan", planAPI);
+app.use("/videos", videosAPI);
+app.use("/workout", workoutAPI);
 
 
 app.get('/dashboard*', (req, res) => {
