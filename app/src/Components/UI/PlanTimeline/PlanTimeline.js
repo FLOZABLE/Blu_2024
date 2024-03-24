@@ -16,7 +16,7 @@ import {
 import CircularCheckBox from "../CircularCheckBox/CircularCheckBox";
 import { DateTime } from "luxon";
 import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadialBar, ResponsiveContainer } from "recharts";
-import { subjectIcons, warmColorsList } from "../../../constant";
+import { subjectIcons, warmColorsList, workoutIcons } from "../../../constant";
 import BlobBtn from "../BlobBtn/BlobBtn";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 import { useSearchParams } from "react-router-dom";
@@ -194,7 +194,7 @@ function PlanTimeline({
         <ul className={`${styles.plans} hiddenScroll`} style={{ maxHeight: maxHeight }}>
           {filteredPlans.map((plan, i) => {
             const planSubject = subjects.find((subject) => {
-              return subject.id === plan.subject;
+              return subject.id === plan.workout;
             });
 
             const dispStart = DateTime.fromJSDate(plan.start).toLocaleString(DateTime.TIME_SIMPLE);
@@ -203,7 +203,7 @@ function PlanTimeline({
             let color = "#fff";
             if (planSubject) {
               color = planSubject.color;
-              icon = subjectIcons[planSubject.icon];
+              icon = workoutIcons[planSubject.icon];
             };
 
             if (!icon) {

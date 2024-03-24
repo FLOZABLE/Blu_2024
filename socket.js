@@ -3,10 +3,9 @@ const cron = require('node-cron');
 const pool = require("./model/pool");
 const redisClient = require("./model/redis");
 const { generateRandomId } = require("./tools");
-const { lastMsgCache, timerCache, chatRoomsCache, msgQueue, userCache, dmRoomMembersCache, groupMembersCache, zsetIncrAll, activeWorkoutCache, workoutCache } = require("./services/redisLoader");
+const { lastMsgCache, subjectsCache, activeSubjectCache, timerCache, chatRoomsCache, msgQueue, userCache, subjectCache, dmRoomMembersCache, groupMembersCache, zsetIncrAll } = require("./services/redisLoader");
 const { DateTime } = require("luxon");
 const { Server } = require('socket.io');
-
 
 const io = new Server(server, {
   cors: {
@@ -17,17 +16,13 @@ const io = new Server(server, {
   allowEIO3: true
 });
 
-
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
-
 io.use(wrap(sessionMiddleWare));
-
 
 const mainIo = io.of('/');
 mainIo.on('connection', (socket) => {
   let session;
-
 
   if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test") {
     try {
@@ -59,24 +54,20 @@ mainIo.on('connection', (socket) => {
   };
   socket.userId = session.user_id;
   const userId = session.user_id;
-
-
   if (userId) {
     (async() => {
       const now = Math.floor(new Date().getTime() / 1000);
-      redisClient.hSet(`user:${userId}`, `ActiveWorkout`, `0:${now}`);
+      redisClient.hSet(`user:${userId}`, `ActiveSubject`, `0:${now}`);
       socket.join(userId);
       const userInfo = await userCache(userId);
       if (!userInfo) return;
- 
+  
       const { friends } = userInfo;
       if (friends.length) {
         io.to(friends).emit(`studying:${userId}`, {id: '0'});
       };
     })();
   }
-
-
 
 
   socket.on('joinMyGroups', async () => {
@@ -91,16 +82,6 @@ mainIo.on('connection', (socket) => {
     };
   });
 
-
-  socket.on('joinChatRoom', async (roomId) => {
-    try {
-      socket.join(`chat:${roomId}`);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-
-
   socket.on('onlineMembers', () => {
     /* const onlineMembers = io.engine.clientsCount;
     io.emit() */
@@ -109,59 +90,57 @@ mainIo.on('connection', (socket) => {
     console.log(onlineMembers); */
   });
 
-
   socket.on("disconnect", async (reason) => {
     const userInfo = await userCache(userId);
 
-
     if (!userInfo) {
-      redisClient.hDel(`user:${userId}`, `ActiveWorkout`);
+      redisClient.hDel(`user:${userId}`, `ActiveSubject`);
       return;
     };
 
-
     const { groups, friends } = userInfo;
 
-
-    if (groups.length) {
-      io.to(groups).emit(`stopStudying:${userId}`, 'disconnect');
+    const activeSubject = await activeSubjectCache(userId);
+    if (!activeSubject) {
+      if (groups.length) {
+        io.to(groups).emit(`stopStudying:${userId}`, {status: 'disconnect'});
+      };
+      if (friends.length) {
+        io.to(friends).emit(`stopStudying:${userId}`, {status: 'disconnect'});
+      };
+      return;
     };
-    if (friends.length) {
-      io.to(friends).emit(`stopStudying:${userId}`, 'disconnect');
-    };
-
-
-    const activeWorkout = await activeWorkoutCache(userId);
-    if (!activeWorkout) return;
-    redisClient.hDel(`user:${userId}`, `ActiveWorkout`);
-
+    redisClient.hDel(`user:${userId}`, `ActiveSubject`);
 
     const now = Math.floor(new Date().getTime() / 1000);
     /* const subjects = await subjectsCache(userId);
     const subject = subjects.find(subjectInfo => subjectInfo.id === subjectId); */
-    const workoutId = activeWorkout.id;
-    const workout = await workoutCache(userId, workoutId);
+    const subjectId = activeSubject.id;
+    const subject = await subjectCache(userId, subjectId);
 
+    if (!subject) return;
 
-    if (!workout) return;
-
-
-    const { datum_point, timeline_sum } = workout;
-
+    const { datum_point, timeline_sum } = subject;
 
     const duration = now - datum_point - timeline_sum;
-    workout.timeline_sum += duration;
-    redisClient.hSet(`user:${userId}:workouts`, workoutId, JSON.stringify(workout));
+    subject.timeline_sum += duration;
+
+    if (groups.length) {
+      io.to(groups).emit(`stopStudying:${userId}`, {status: 'disconnect', duration});
+    };
+    if (friends.length) {
+      io.to(friends).emit(`stopStudying:${userId}`, {status: 'disconnect', duration});
+    };
+    
+    redisClient.hSet(`user:${userId}:subjects`, subjectId, JSON.stringify(subject));
     //redisClient.incrBy(`user:${userId}:dayTotal`, duration);
     //zsetIncrAll(`user:${userId}:dayTotal`, duration);
 
-
-    const activity = JSON.parse(await redisClient.rPop(`user:${userId}:workout:${workoutId}`));
-
+    const activity = JSON.parse(await redisClient.rPop(`user:${userId}:subject:${subjectId}`));
 
     if (activity) {
       const start = activity[0];
-      redisClient.rPush(`user:${userId}:workout:${workoutId}`, `[${start},${duration}]`);
+      redisClient.rPush(`user:${userId}:subject:${subjectId}`, `[${start},${duration}]`);
     };
     extensionIo.to(userId).emit("studying", { studying: false });
     //total timer update
@@ -179,9 +158,7 @@ mainIo.on('connection', (socket) => {
     };
   });
 
-
   //chat
-
 
   socket.on("sendMsg", async (roomId, msg) => {
     const isIn = await isInChatRoom(userId, roomId);
@@ -196,7 +173,6 @@ mainIo.on('connection', (socket) => {
     };
   });
 
-
   //webcam
   socket.on("camOn", async () => {
     const userId = socket.userId;
@@ -209,31 +185,30 @@ mainIo.on('connection', (socket) => {
     }
   });
 
-
-  socket.on("start", async (workoutId) => {
+  socket.on("start", async (subjectId) => {
+    console.log('start')
     try {
       /* const subjects = await subjectsCache(userId);
       const groups = await groupCache(userId);
       const subject = subjects.find(subjectInfo => subjectInfo.id === subjectId); */
-      const workout = await workoutCache(userId, workoutId);
+      const subject = await subjectCache(userId, subjectId);
       const userInfo = await userCache(userId);
       const now = Math.floor(new Date().getTime() / 1000);
-
-
-      if (!workout || !userInfo) return;
+      if (!subject || !userInfo) return;
       const { groups, friends } = userInfo;
       if (groups.length) {
-        mainIo.to(groups).emit(`studying:${userId}`, workout);
+        mainIo.to(groups).emit(`studying:${userId}`, subject);
       };
       if (friends.length) {
-        io.to(friends).emit(`studying:${userId}`, workout);
+        io.to(friends).emit(`studying:${userId}`, subject);
       };
-      const { timeline_sum, datum_point, id } = workout;
+      const { timeline_sum, datum_point, id } = subject;
       const start = now - datum_point - timeline_sum;
-      redisClient.rPush(`user:${userId}:workout:${id}`, `[${start},0]`);
-      redisClient.hSet(`user:${userId}`, `ActiveWorkout`, `${id}:${now}`);
-      workout.timeline_sum += start;
-      redisClient.hSet(`user:${userId}:workouts`, id, JSON.stringify(workout));
+      redisClient.rPush(`user:${userId}:subject:${id}`, `[${start},0]`);
+      redisClient.hSet(`user:${userId}`, `ActiveSubject`, `${id}:${now}`);
+      subject.timeline_sum += start;
+      redisClient.hSet(`user:${userId}:subjects`, id, JSON.stringify(subject));
+      extensionIo.to(userId).emit("studying", { studying: true });
       //total timer
       /* const timerInfo = await timerCache(userId, now);
       const {dp, ts} = timerInfo;
@@ -246,46 +221,38 @@ mainIo.on('connection', (socket) => {
   });
 
 
-
-
-  socket.on("stop", async (workoutId) => {
-    const activeWorkout = await activeWorkoutCache(userId);
+  socket.on("stop", async (subjectId) => {
+    const activeSubject = await activeSubjectCache(userId);
+    if (!activeSubject || !activeSubject.id === subjectId || activeSubject.id === '0') return;
     const now = Math.floor(new Date().getTime() / 1000);
-    /* const subjects = await subjectsCache(userId);
-    const subject = subjects.find(subjectInfo => subjectInfo.id === subjectId); */
-    const workout = await workoutCache(userId, workoutId);
+    const subject = await subjectCache(userId, subjectId);
     const userInfo = await userCache(userId);
-    if (!userInfo || !workout || !activeWorkout || !activeWorkout.id === workoutId) return;
+    if (!userInfo || !subject) return;
 
-
-
-
-    const { groups, friends } = userInfo;
-
-
-    if (groups.length) {
-      io.to(groups).emit(`stopWorkout:${userId}`, 'rest');
-    };
-    if (friends.length) {
-      io.to(friends).emit(`stopWorkout:${userId}`, 'rest');
-    };
-    const { datum_point, timeline_sum } = workout;
-
+    const { datum_point, timeline_sum } = subject;
 
     const duration = now - datum_point - timeline_sum;
-    workout.timeline_sum += duration;
-    redisClient.hSet(`user:${userId}:workouts`, workoutId, JSON.stringify(workout));
+    subject.timeline_sum += duration;
+    redisClient.hSet(`user:${userId}:subjects`, subjectId, JSON.stringify(subject));
     //redisClient.incrBy(`user:${userId}:dayTotal`, duration);
     //zsetIncrAll(`user:${userId}:dayTotal`, duration);
 
+    const { groups, friends } = userInfo;
 
-    const activity = JSON.parse(await redisClient.rPop(`user:${userId}:workout:${workoutId}`));
+    if (groups.length) {
+      io.to(groups).emit(`stopStudying:${userId}`, {status: 'rest', duration});
+    };
+    if (friends.length) {
+      io.to(friends).emit(`stopStudying:${userId}`, {status: 'rest', duration});
+    };
 
+    const activity = JSON.parse(await redisClient.rPop(`user:${userId}:subject:${subjectId}`));
 
     if (activity) {
       const start = activity[0];
-      redisClient.rPush(`user:${userId}:wokrout:${workoutId}`, `[${start},${duration}]`);
+      redisClient.rPush(`user:${userId}:subject:${subjectId}`, `[${start},${duration}]`);
     };
+    extensionIo.to(userId).emit("studying", { studying: false });
     //total timer update
     //this is unix time in sec of active subject's start
     /* const activeSubjectStart = activeSubject.time;
@@ -296,26 +263,22 @@ mainIo.on('connection', (socket) => {
     timerInfo.ts += totalTimerDuration;
     redisClient.rPush(`user:${userId}:timer`, `[${timerStart},${totalTimerDuration}]`);
     redisClient.hSet(`user:${userId}`, 'timerInfo', JSON.stringify(timerInfo)); */
-    redisClient.hSet(`user:${userId}`, `ActiveWorkout`, `0:${now}`);
+    redisClient.hSet(`user:${userId}`, `ActiveSubject`, `0:${now}`);
     for (let i = -12; i < 12; i++) {
       redisClient.zIncrBy(`user:${userId}:dayTotal`, duration, i.toString());
     };
   });
 
-
   socket.on("startDm", async (targetId) => {
     if (isUser(userId)) {
 
-
     } else { }
   });
-
 
   socket.on("changeGroup", async (groupId) => {
     const userInfo = await userCache(userId);
     if (!userInfo) return;
     const {groups, friends} = userInfo;
-
 
     if (!groups.includes(groupId)) return;
     groups.map(group => {
@@ -333,7 +296,6 @@ mainIo.on('connection', (socket) => {
     io.to(friends).emit(`activeGroup:${userId}`, { groupInfo, time: now });
   });
 
-
   socket.on('readMsg', async ({ roomId, type }) => {
     if (!roomId) return;
     //dm
@@ -344,10 +306,8 @@ mainIo.on('connection', (socket) => {
       members = await groupMembersCache(roomId);
     };
 
-
     //user not member of the chatroom
     if (!members.includes(userId)) return;
-
 
     const [lastMsg] = await redisClient.lRange(`room:${roomId}:chats`, -1, -1);
     if (!lastMsg) return;
@@ -357,22 +317,72 @@ mainIo.on('connection', (socket) => {
     redisClient.hSet(`user:${userId}:chats`, roomId, `${i}:${now}`);
   });
 
+  socket.on("volumeChange", ({ id, volume }) => {
+    if (!id || typeof volume !== "number") {
+      return;
+    };
+    socket.to(userId).emit(`volumeChange`, { id, volume });
+    extensionIo.to(userId).emit(`volumeChange`, { id, volume });
+  })
 
   socket.on('exitSession', async () => {
     deActiveGroup(userId, socket);
   });
-
 
   socket.on('disconnect', async () => {
     deActiveGroup(userId, socket);
   });
 });
 
+const extensionIo = io.of("/extension");
+
+extensionIo.on("connection", (socket) => {
+  socket.on("auth", async ({ authId }) => {
+    if (!authId) return;
+    const userId = await redisClient.get(`extension:auth:${authId}`);
+    //invalid auth id
+    if (!userId) return;
+    const userInfo = await userCache(userId);
+
+    if (!userInfo) return;
+
+    const dateTime = DateTime.now().setZone(userInfo.timezone);
+    const score = Math.floor(dateTime.offset / 60) + 12;
+    redisClient.zAdd(`extensionUsers`, [{ value: userId, score }]);
+    socket.userId = userId;
+    socket.join(userId);
+    const activeSubject = await activeSubjectCache(userId);
+    extensionIo.to(userId).emit("studying", { studying: activeSubject && activeSubject.id !== '0' ? true : false });
+  });
+
+  /*   socket.on("setting-update", async({d, target, value}) => {
+      if (!socket.userId) return;
+      extensionIo.to(socket.userId).emit("setting-updated", {d, target, value});
+    });
+  
+    socket.on("setting-create", async({d, block, timer}) => {
+      console.log(socket.userId, block, timer, 'created')
+      if (!socket.userId) return;
+      extensionIo.to(socket.userId).emit("setting-created", {d, block, timer});
+    }); */
+
+  socket.on("update-tabs", async ({ domain, duration }) => {
+    if (!socket.userId || !domain || !duration) return;
+    redisClient.zIncrBy(`user:${socket.userId}:tabs:timer`, duration, domain);
+    redisClient.zIncrBy(`user:${socket.userId}:tabs:usage`, 1, domain);
+
+  });
+
+  socket.on("volumeChange", async ({ id, volume }) => {
+    if (!socket.userId || !id) return;
+    io.to(socket.userId).emit(`volumeChange`, { id, volume });
+  })
+})
 
 async function deActiveGroup(userId, socket) {
   const userInfo = await userCache(userId);
   if (!userInfo) return;
-  const {groups, friends} = userInfo;
+  const {groups, friends} = userInfo; 
   groups.map(group => {
     socket.leave(group);
   });
@@ -381,13 +391,11 @@ async function deActiveGroup(userId, socket) {
   io.to(friends).emit(`deActiveGroup:${userId}`);
 }
 
-
 async function isUser(userId) {
   const connection = pool.promise();
   const [[userInfo]] = await connection.query(`SELECT user_id FROM users WHERE user_id = ?`, [userId]);
   return userInfo ? true : false;
 };
-
 
 async function isInChatRoom(userId, roomId) {
   try {
@@ -398,7 +406,6 @@ async function isInChatRoom(userId, roomId) {
     console.log(err);
   };
 };
-
 
 async function isInGroupRoom(userId, groupId, roomId) {
   try {
@@ -429,11 +436,9 @@ async function isInGroupRoom(userId, groupId, roomId) {
   }
 };
 
-
 cron.schedule('*/10 * * * * *', () => {
   const onlineMembers = io.engine.clientsCount;
   io.emit('onlineMembers', onlineMembers);
-
 
   const allRooms = io.sockets.adapter.rooms;
   for (const [groupId, socketIdsSet] of allRooms) {
@@ -450,5 +455,5 @@ cron.schedule('*/10 * * * * *', () => {
   };
 });
 
-
-module.exports = { io, mainIo };
+module.exports = { io, mainIo, extensionIo };
+//require('./videoServer')

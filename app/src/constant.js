@@ -1,4 +1,4 @@
-import { Alert, Article, Book, Coding, Globe, IconCalculator, IconFileBarGraphFill, IconPeriodicTable, IconWhiteboard, Microscope, Workout, WritePen } from "./utils/svgs";
+import { Abs, Alert, Arm, Article, Book, Coding, Cycle1, Dumbell1, Dumbell3, Globe, Gym, IconCalculator, IconFileBarGraphFill, IconPeriodicTable, IconWhiteboard, Microscope, Workout, WritePen, Yoga } from "./utils/svgs";
 import React from 'react';
 
 const colorsList = [
@@ -45,6 +45,16 @@ const subjectIcons = {
   "Alert": <Alert />
 };
 
+const workoutIcons = {
+  "Dumbell1": <Dumbell1 />,
+  "Cycle1": <Cycle1 />,
+  "Arm": <Arm />,
+  "Yoga": <Yoga />,
+  "Gym": <Gym />,
+  "Dumbell3": <Dumbell3 />,
+  "Abs": <Abs />,
+}
+
 const toolsInfo = [
   {
     name: "Scientific Calculator",
@@ -64,4 +74,4 @@ const toolsInfo = [
   },
 ]
 
-export { colorsList, subjectIcons, toolsInfo, coldColorsList, warmColorsList };
+export { colorsList, subjectIcons, toolsInfo, coldColorsList, warmColorsList, workoutIcons };

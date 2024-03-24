@@ -8,17 +8,7 @@ import ColorPalette from "../ColorPalette/ColorPalette";
 import BlobBtn from "../BlobBtn/BlobBtn";
 import SelectIcon from "../SelectIcon/SelectIcon";
 import { WritePen, Book, Microscope, Article, Coding, Globe, Workout, Alert } from "../../../utils/svgs";
-
-const subjectIcons = {
-  "Book": <Book width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />,
-  "Coding": <Coding width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />,
-  "Microscope": <Microscope width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />,
-  "WritePen": <WritePen width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />,
-  "Article": <Article width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />,
-  "Globe": <Globe width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />,
-  "Workout": <Workout width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />,
-  "Alert": <Alert width={"2.5rem"} height={"2.5rem"} fill={"#000"} opt1={"#000"} />
-};
+import { workoutIcons } from "../../../constant";
 
 const serverOrigin = process.env.REACT_APP_ORIGIN;
 
@@ -74,7 +64,7 @@ function EditSubjectModal({
 
   useEffect(() => {
     if (!subject) return;
-    const icon = subjectIcons[subject.icon];
+    const icon = workoutIcons[subject.icon];
     setSelectedIcon({ el: icon, name: subject.icon });
     setSelectedColor(subject.color);
     setName(subject.name);

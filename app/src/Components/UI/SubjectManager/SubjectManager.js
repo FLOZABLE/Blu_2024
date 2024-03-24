@@ -6,7 +6,7 @@ import SubjectIcon from "../SubjectIcon/SubjectIcon";
 import LineInput from "../LineInput/LineInput";
 import SelectIcon from "../SelectIcon/SelectIcon";
 import ColorPalette from "../ColorPalette/ColorPalette";
-import { subjectIcons } from "../../../constant";
+import { subjectIcons, workoutIcons } from "../../../constant";
 import BlobBtn from "../BlobBtn/BlobBtn";
 import SelectTool from "../SelectTool.js/SelectTool";
 
@@ -24,7 +24,7 @@ function SubjectManager({ subject, setSelectedSubject, selectedSubject }) {
   useEffect(() => {
     if (!subject) return;
     const { icon, name, color } = subject;
-    setSelectedIcon({ el: subjectIcons[icon], name: icon });
+    setSelectedIcon({ el: workoutIcons[icon], name: icon });
     setSelectedColor(color);
     const tools = !subject.tools ? [] : subject.tools.split(",");
     setSelectedTool(tools);
