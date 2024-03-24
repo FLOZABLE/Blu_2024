@@ -36,8 +36,9 @@ Router.post('/update', async (req, res) => {
 
       const minPlanTime = DateTime.now().minus({ month: 1 }).toSeconds() / 60;
       const maxPlanTime = DateTime.now().plus({ year: 1 }).toSeconds() / 60;
-      const { title, id, start, end, repeat, description, workout, notification, priority, completed, type } = planInfo;
-
+      const { title, id, start, end, repeat, description, subject, notification, priority, completed, type } = planInfo;
+      const workout = subject;
+      
       const isValidTitle = validateString(title, 'Title', 100);
       if (!isValidTitle.isValid) {
         return res.send({ success: false, reason: isValidTitle.reason });

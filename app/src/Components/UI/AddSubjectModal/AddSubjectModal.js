@@ -76,7 +76,7 @@ function AddSubjectModal({
       .then((data) => {
         setAddSubjectResponse(data);
         if (data.success) {
-          const newSubject = sortNewSubject(subjects, data.info.subjectInfo);
+          const newSubject = sortNewSubject(subjects, data.info.workoutInfo);
           setIsAddSubjectModal(false);
           setSubjects((prevSubjects) => {
             const newState = [...prevSubjects];

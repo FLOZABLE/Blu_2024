@@ -149,10 +149,8 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          setSubjects(timelineSort(data.subjects));
-          bringPlans(data.subjects);
-          console.log('subject', data);
-          //setSubjects(sortSubjects(data.subjects));
+          setSubjects(timelineSort(data.workouts));
+          bringPlans(data.workouts);
         } else {
           bringPlans([]);
         }

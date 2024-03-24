@@ -80,7 +80,7 @@ function PlanTimeline({
 
     const planSeries = [];
     subjects.map((subject, i) => {
-      const subjectPlans = filteredPlans.filter(plan => plan.subject === subject.id);
+      const subjectPlans = filteredPlans.filter(plan => plan.workout === subject.id);
       if (subjectPlans.length) {
         const { id, name } = subject;
         const total = subjectPlans.length;
