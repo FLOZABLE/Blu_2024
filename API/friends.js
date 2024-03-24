@@ -1,5 +1,5 @@
 const express = require('express');
-const { autoSignin, generateRandomId, randomIntInRange } = require('../tool');
+const { autoSignin, generateRandomId, randomIntInRange } = require('../tools');
 const { NotificationCache, userCache, activeSubjectCache, subjectCache, dmRoomsCache } = require('../services/redisLoader');
 const redisClient = require('../model/redis');
 const pool = require('../model/pool');

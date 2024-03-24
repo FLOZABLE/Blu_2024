@@ -2,9 +2,8 @@ const express = require("express");
 const Router = express.Router();
 const pool = require("../model/pool");
 const redisClient = require("../model/redis");
-const notificationService = require('../services/notification');
 const { mainIo } = require("../socket");
-const { generateRandomId, isValidJSON, autoSignin } = require("../tool");
+const { generateRandomId, isValidJSON, autoSignin } = require("../tools");
 const { workoutsCache, workoutsTimelineCache } = require("../services/redisLoader");
 const { validateString, validateHEX, validateStrictString, validateArray } = require("../validate");
 
