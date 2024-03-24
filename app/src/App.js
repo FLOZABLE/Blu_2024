@@ -8,7 +8,8 @@ import { AppProvider } from './Contexts';
 import Sidebar from './Components/UI/Others/Sidebar/Sidebar';
 import EventModal from './Components/UI/Plans/EventModal/EventModal';
 import Analysis from './Components/Pages/Analysis/Analysis';
-import Groups from './Components/Pages/Groups/Groups';
+import Workout from './Components/Pages/Workout/Workout';
+//import Groups from './Components/Pages/Groups/Groups';
 
 function App() {
   useEffect(() => {
@@ -71,11 +72,20 @@ function App() {
               </>
             }
           />
-          <Route
+          {/* <Route
             path="/dashboard/groups"
             element={
               <>
                 <Groups
+                />
+              </>
+            }
+          /> */}
+          <Route
+            path="/dashboard/study"
+            element={
+              <>
+                <Workout
                 />
               </>
             }

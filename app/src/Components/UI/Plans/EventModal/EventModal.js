@@ -272,7 +272,6 @@ function EventModal({
                       setIsAddSubjectModal(true);
                     }}
                     delay={-1}
-                    id="tutorial-3"
                   />
                 </div>
               </div>
@@ -334,7 +333,6 @@ function EventModal({
               setClicked={() => {
                 submit();
               }}
-              id="tutorial-5"
             />
           </div>
         </div>
