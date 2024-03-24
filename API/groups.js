@@ -224,6 +224,8 @@ Router.post('/join/:id', async (req, res) => {
       if (isCached) {
         redisClient.sAdd(`room:${groupId}`, userId);
       };
+
+      mainIo.to(userId).emit("joinChatRoom", groupId);
     } catch (err) {
       // Handle any errors that may occur during the execution of queries
       console.error('Error performing database queries:', err);
