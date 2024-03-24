@@ -92,6 +92,15 @@ mainIo.on('connection', (socket) => {
   });
 
 
+  socket.on('joinChatRoom', async (roomId) => {
+    try {
+      socket.join(`chat:${roomId}`);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+
   socket.on('onlineMembers', () => {
     /* const onlineMembers = io.engine.clientsCount;
     io.emit() */
