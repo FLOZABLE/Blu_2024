@@ -41,12 +41,13 @@ function ThemeSelector({
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         let userThemes = [];
-        const { themes } = data;
-        if (!themes) return;
+        const { videos } = data;
+        if (!videos) return;
 
-        if (themes.themes !== "") {
-          userThemes = themes.themes.split(",");
+        if (videos.videos !== "") {
+          userThemes = videos.videos.split(",");
         }
         const allIds = [];
         const allCategories = {};
@@ -63,6 +64,7 @@ function ThemeSelector({
         })
           .then((response) => response.json())
           .then((data) => {
+            console.log(data);
             if (!data.success) {
               data.info = [];
             }
@@ -103,8 +105,9 @@ function ThemeSelector({
   }, []);
 
   useEffect(() => {
-    if (!!!themesList) return;
+    if (!themesList) return;
     if (themeCategory === "") {
+      console.log("yesdl");
       setSelectionEl(
         <div className={`${styles.themeContainer} customScroll`}>
           {themesList.map((Theme, i) => {
@@ -118,7 +121,7 @@ function ThemeSelector({
                 }}
                 style={{
                   backgroundImage: Theme.img.startsWith("https:")
-                    ? `url("${Theme.img}"`
+                    ? `url("${Theme.img}")`
                     : `url("${serverOrigin}/img/Themes/${Theme.img}")`,
                   backgroundSize: "cover",
                   backgroundPosition: "center center",
@@ -134,6 +137,7 @@ function ThemeSelector({
         </div>,
       );
     } else {
+      console.log("nosdlfjsei")
       setSelectionEl(
         <div className={`${styles.themeContainer} customScroll`}>
           {themeChoices.map((Theme, i) => {
