@@ -2,8 +2,9 @@ const express = require('express');
 const Router = express.Router();
 const axios = require('axios');
 
-Router.get('/create-plan', (req, res) => {
+Router.get('/create-plan', async(req, res) => {
   let query = "";
+  console.log("fetching plan ai");
 
   const {age, weight, target, time} = req.query
 
@@ -21,15 +22,15 @@ Router.get('/create-plan', (req, res) => {
   Be sure to vary the response every time
   `;
 
-  axios.post('https://api.together.xyz/v1/chat/completions', {
+  await axios.post('https://api.together.xyz/v1/chat/completions', {
     "model": "upstage/SOLAR-10.7B-Instruct-v1.0",
-    "max_tokens": 1024,
-    "prompt": `[INST] ${query} [/INST]`,
+    "max_tokens": 2048,
+    "prompt": `<s> ### User:\n${query}\n### Assistant:\n`,
     "temperature": 0.7,
     "top_p": 0.7,
     "top_k": 50,
     "repetition_penalty": 1,
-    "stream_tokens": true,
+    "stream_tokens": false,
     "stop": [
       "[/INST]",
       "</s>"
@@ -39,8 +40,9 @@ Router.get('/create-plan', (req, res) => {
       Authorization: `Bearer ${process.env.AI_API_KEY}`
     }
   }).then((response) => {
-    console.log(response);
-  }, (error) => {
-    console.log(error);
+    const result = response.data.choices[0].message.content;
+    return res.send({success: true, plan: result});
   });
-})
+});
+
+module.exports = Router;

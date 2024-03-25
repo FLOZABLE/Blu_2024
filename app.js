@@ -53,6 +53,7 @@ const planAPI = require("./API/plan");
 const videosAPI = require("./API/videos");
 const workoutAPI = require("./API/workout");
 const rankingAPI = require("./API/ranking")
+const botAPI = require("./API/ai");
 
 //app.use(logger('dev'));
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -71,6 +72,7 @@ app.use("/plan", planAPI);
 app.use("/videos", videosAPI);
 app.use("/workout", workoutAPI);
 app.use("/ranking", rankingAPI);
+app.use("/ai", botAPI);
 
 app.get('/dashboard*', (req, res) => {
   res.sendFile(path.join(__dirname, process.env.BUILD, 'index.html'));
