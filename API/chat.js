@@ -22,22 +22,6 @@ Router.post("/bring-rooms", async (req, res) => {
 });
 
 
-Router.post("/bring-room", async (req, res) => { //Bring ONE room by ID
-  const { searchId } = req.body;
-  autoSignin(req, res, (async (userId) => {
-    let foundRoom = false;
-    let rooms = await chatRoomsCache(userId);
-    rooms.map(async (room) => {
-      if (room.id === searchId && !foundRoom) {
-        const chats = (await redisClient.lRange(`room:${room.id}:chats`, 0, -1)).map(JSON.parse);
-        res.send({ success: true, room: { ...room, chats } });
-        foundRoom = true;
-      }
-    });
-  }));
-});
-
-
 Router.get('/members', async (req, res) => {
   autoSignin(req, res, (async (userId) => {
     const { roomId } = req.query;

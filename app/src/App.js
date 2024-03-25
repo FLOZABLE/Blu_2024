@@ -66,7 +66,7 @@ function App() {
     repeat: 0,
     priority: 50,
     notification: -1,
-    subject: null,
+    workout: null,
     id: null,
     saved: false,
     completed: false,
@@ -130,7 +130,7 @@ function App() {
     if (!subjects.length) return;
 
     const lastSubject = subjects[subjects.length - 1];
-    setPlanModal(prev => ({ ...prev, subject: lastSubject.id }));
+    setPlanModal(prev => ({ ...prev, workout: lastSubject.id }));
   }, [subjects]);
 
   const bringSubjects = useCallback(() => {

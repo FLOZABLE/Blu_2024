@@ -172,7 +172,7 @@ Router.post('/signup-authentication', async (req, res) => {
       httpOnly: true,
       signed: true,
     });
-    res.send({ success: true });
+    res.send({ success: true, msg: 'Success!' });
   } catch (err) {
     console.log(err);
     res.send({ success: false, reason: "Error" });

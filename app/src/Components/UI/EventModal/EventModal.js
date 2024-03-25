@@ -57,7 +57,7 @@ function EventModal({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...planModal, start: startSec, end: endSec, completed, notification, repeat, workout: planModal.subject }),
+      body: JSON.stringify({ ...planModal, start: startSec, end: endSec, completed, notification, repeat }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -89,7 +89,7 @@ function EventModal({
     } else {
       setEvents((prev) => {
         const foundIndex = prev.findIndex((val) => val.id === planModal.id);
-        const subject = subjects.find(subject => subject.id === planModal.subject);
+        const subject = subjects.find(subject => subject.id === planModal.workout);
         const planInfo = { ...planModal };
         if (subject) {
           planInfo.backgroundColor = subject.color;
@@ -267,20 +267,20 @@ function EventModal({
               <div className={styles.contentWrapper}>
                 <div className={styles.subjectWrapper}>
                   <DropDownButton
-                    options={subjects.reduce((acc, subject) => {
-                      const { name, id } = subject;
+                    options={subjects.reduce((acc, workout) => {
+                      const { name, id } = workout;
                       acc[id] = name;
                       return acc;
                     }, {})}
-                    setValue={(subject) => {
+                    setValue={(workout) => {
                       if (!planModal.editable) {
                         setResponse({ success: false, reason: "This event is view only" });
                       } else {
-                        setPlanModal((prev) => ({ ...prev, subject }));
+                        setPlanModal((prev) => ({ ...prev, workout }));
 
                       }
                     }}
-                    value={planModal.subject}
+                    value={planModal.workout}
                   />
                 </div>
                 <p>OR</p>
