@@ -70,66 +70,6 @@ function Stats({
     setViewDate(date);
   };
 
-  useEffect(() => {
-    if (!userInfo) return;
-    const { user_id } = userInfo;
-    const viewDateTime = DateTime.fromJSDate(viewDate);
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    fetch(`${serverOrigin}/extension/usage?date=${viewDateTime.toISODate()}&mode=${statsViewer}&timezone=${timezone}`,
-      {
-        method: "get",
-      })
-      .then((response) => response.json())
-      .then((response) => {
-        if (response.success) {
-          setTimeout(() => {
-            setWebsites(response.websitesData);
-          }, 1300);
-
-          let websitesUsage = 0;
-          let websitesVisit = 0;
-          response.websitesData.map(website => {
-            websitesUsage += website.t;
-            websitesVisit += website.v;
-          });
-          const websitesUsagesDisp = secondConverter(websitesUsage);
-          setWebsitesUsage(`${websitesUsagesDisp.value} ${websitesUsagesDisp.type}`);
-          setWebsitesVisit(`${websitesVisit} times`);
-        }
-      })
-      .catch((error) => console.error(error));
-
-    fetch(`${serverOrigin}/ranking/user?userId=${user_id}&mode=${statsViewer.toLowerCase()}&date=${viewDateTime.toISODate()}&timezone=${timezone}`, {
-      method: 'get'
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          console.log(data)
-          rankingTrend = updateRankingTrend(data.rankings, statsViewer);
-          let ranking = 0;
-          if (statsViewer === "Daily") {
-            ranking = rankingTrend.find(ranking => ranking.label === viewDateTime.toISODate());
-          } else if (statsViewer === "Weekly") {
-            ranking = rankingTrend.find(ranking => ranking.label === viewDateTime.startOf('week').toISODate());
-          } else {
-            ranking = rankingTrend.find(ranking => ranking.label === viewDateTime.startOf('month').toISODate());
-          };
-
-          if (ranking) {
-            setRanking(ranking.data);
-          }
-
-          setTimeout(() => {
-            setRankingsTrend(rankingTrend);
-          }, 0);
-        }
-      })
-      .catch((error) => console.error(error));
-
-
-  }, [userInfo, viewDate, statsViewer]);
-
   const focusCalculator = (grouped) => {
     if (!grouped) return 0;
     let focus = 0;

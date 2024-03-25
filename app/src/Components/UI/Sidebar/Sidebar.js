@@ -70,9 +70,9 @@ function Sidebar({
   return (
     <aside className={styles.Sidebar}>
       <div className={styles.logo}>
-        <a href="https://flozable.com">
+        <Link to="/dashboard">
           <img src="/logo.png" alt="" />
-        </a>
+        </Link>
       </div>
       <div className={styles.sidebarContainer}>
         <div>
@@ -165,10 +165,10 @@ function Sidebar({
         <div>
           <Link
             className={styles.sidebarEl}
-            to={"/dashboard/themes"}
+            to={"/dashboard/videos"}
           >
             <div className={styles.hoverField}>
-              <h4>Themes</h4>
+              <h4>Videos</h4>
             </div>
             <i>
               <IconGalleryLine /> 

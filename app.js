@@ -5,11 +5,12 @@ const http = require('http');
 const logger = require('morgan');
 const connectRedis = require('connect-redis');
 const cookieParser = require('cookie-parser');
-const server = http.createServer(app);
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const path = require("path");
+const https = require('https');
+const fs = require("fs");
 
 if (process.env.NODE_ENV === 'development') {
   dotenv.config({ path: '.env.development' });
@@ -17,6 +18,20 @@ if (process.env.NODE_ENV === 'development') {
   dotenv.config({ path: '.env.production' });
 } else {
   dotenv.config({ path: '.env.test' });
+}
+
+let server;
+
+if (process.env.IS_HTTPS) {
+  const options = {
+    key: fs.readFileSync('./SSL/key.pem', 'utf-8'),
+    cert: fs.readFileSync('./SSL/cert.pem', 'utf-8')
+  }
+  server = https.createServer(options, app);
+  console.log('https')
+} else {
+  console.log('http')
+  server = http.createServer(app);
 }
 
 const RedisStore = connectRedis.default;
@@ -53,14 +68,17 @@ const planAPI = require("./API/plan");
 const videosAPI = require("./API/videos");
 const workoutAPI = require("./API/workout");
 const rankingAPI = require("./API/ranking");
+const aiAPI = require("./API/ai");
 
-//app.use(logger('dev'));
+app.use(logger('dev'));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 const { io } = require("./socket");
 app.set('socketio', io);
 app.use(cookieParser(process.env.SECRET_ID));
 app.use(cors());
+app.use(express.static(path.join(__dirname, '/public')));
+app.disable('etag');
 
 
 app.use('/account', accountAPI);
@@ -71,6 +89,8 @@ app.use("/plan", planAPI);
 app.use("/videos", videosAPI);
 app.use("/workout", workoutAPI);
 app.use("/ranking", rankingAPI);
+app.use("/ai", aiAPI)
+app.use(express.static(path.join(__dirname, process.env.BUILD)));
 
 
 app.get('/dashboard*', (req, res) => {

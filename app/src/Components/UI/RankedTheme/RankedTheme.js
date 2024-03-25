@@ -52,7 +52,7 @@ function RankedTheme({ theme, setResponse, liked, rank, setIsActive, themeCatego
           ))}
         </div>
         <div className={styles.buttons}>
-          <GroupUrlBtn text={`${serverOrigin}/dashboard/themes?id=${theme?.id}`} />
+          <GroupUrlBtn text={`${serverOrigin}/dashboard/videos?id=${theme?.id}`} />
           <div>
             <ThemeCategoryBtn
               themeId={theme?.id}

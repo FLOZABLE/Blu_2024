@@ -186,7 +186,7 @@ function App() {
               plan.saved = true;
               plan.start = new Date(plan.start * 1000 * 60);
               plan.end = new Date(plan.end * 1000 * 60);
-              const subject = subjects.find(subject => subject.id === plan.subject);
+              const subject = subjects.find(subject => subject.id === plan.workout);
               if (subject) {
                 plan.backgroundColor = subject.color;
                 plan.borderColor = subject.color;
@@ -808,7 +808,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/themes"
+          path="/dashboard/videos"
           element={
             <div>
               <HelmetProvider>

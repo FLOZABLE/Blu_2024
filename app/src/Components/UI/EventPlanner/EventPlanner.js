@@ -236,7 +236,7 @@ function EventPlanner(props) {
   });
   const [searchParams, setSearchParams] = useSearchParams();
   const [lastClick, setLastClick] = useState(new Date().getTime());
-
+  console.log('gddddd', events)
   function renderEventContent(eventInfo) {
     return (
       <div>

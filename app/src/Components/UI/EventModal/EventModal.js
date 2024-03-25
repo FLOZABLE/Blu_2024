@@ -57,7 +57,7 @@ function EventModal({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...planModal, start: startSec, end: endSec, completed, notification, repeat }),
+      body: JSON.stringify({ ...planModal, start: startSec, end: endSec, completed, notification, repeat, workout: planModal.subject }),
     })
       .then((response) => response.json())
       .then((data) => {

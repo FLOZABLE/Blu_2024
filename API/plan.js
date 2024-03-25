@@ -36,8 +36,7 @@ Router.post('/update', async (req, res) => {
 
       const minPlanTime = DateTime.now().minus({ month: 1 }).toSeconds() / 60;
       const maxPlanTime = DateTime.now().plus({ year: 1 }).toSeconds() / 60;
-      const { title, id, start, end, repeat, description, subject, notification, priority, completed, type } = planInfo;
-      const workout = subject;
+      const { title, id, start, end, repeat, description, workout, notification, priority, completed, type } = planInfo;
       
       const isValidTitle = validateString(title, 'Title', 100);
       if (!isValidTitle.isValid) {
@@ -118,11 +117,11 @@ Router.post('/update', async (req, res) => {
         if (notification !== -1) {
           const subNotificationStart = startTime - notification * 60;
           if (subNotificationStart > DateTime.now().toSeconds() && userInfo) {
-            planPushNotification(userId + "-" + id,{...userInfo, user_id: userId}, payload, subNotificationStart)
+            //planPushNotification(userId + "-" + id,{...userInfo, user_id: userId}, payload, subNotificationStart)
           }
         };
         if (startTime > DateTime.now().toSeconds() && userInfo) {
-          planPushNotification(userId + "-" + id,{...userInfo, user_id: userId}, payload, startTime)
+          //planPushNotification(userId + "-" + id,{...userInfo, user_id: userId}, payload, startTime)
         }
         //planNotification(insertInfo, userInfo[0], startTime)
         const insert = await connection.query(`INSERT INTO plans SET ?`, insertInfo);
