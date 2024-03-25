@@ -306,96 +306,10 @@ function Account({ isSidebarHovered, isSidebarOpen, subjects, setSubjects, userI
             <div className={styles.boxWrapper}>
               <div className={styles.box} id={styles.subjects} ref={subjectsRef}>
                 <div className={styles.title}>
-                  <h1>Manage Subjects</h1>
-                  <p>Manage your subjects for study</p>
+                  <h1>Manage Workouts</h1>
+                  <p>Manage your workouts </p>
                   <div className={styles.content}>
                     <SubjectsManager subjects={subjects} setSubjects={setSubjects} setResponse={setResponse} />
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div className={styles.boxWrapper}>
-              <div className={styles.box} id={styles.extension} ref={extensionRef}>
-                <div className={styles.title}>
-                  <h1>Chrome Extension</h1>
-                  <p>
-                    Here you can setup and manage your chrome extension's tracking
-                    option (Default option for all websites is all enabled)
-                  </p>
-                </div>
-                <ExtensionSetting
-                  websites={websites}
-                  setWebsites={setWebsites}
-                  setResponse={setResponse}
-                />
-              </div>
-            </div>
-            <div className={styles.boxWrapper}>
-              <div className={styles.box} id={styles.accounts} ref={accountsRef}>
-                <div className={styles.title}>
-                  <h1>Accounts</h1>
-                  <p>
-                    Here you can setup and manage your integration settings
-                  </p>
-                </div>
-                <div>
-                  <div>
-                    <div className={styles.iconWrapper}>
-                      <div>
-                        <GoogleCalendar />
-                      </div>
-                    </div>
-                    <div className={styles.explanation}>
-                      <p>
-                        You haven't connected your Google Calendar yet or you aren't authorized. Please authorize our application to access your Google Calendar
-                        by signing in with your Google account here.
-                      </p>
-                    </div>
-                    <div className={styles.authBtn}>
-                      <div>
-                        <GoogleOAuthProvider
-                          clientId={googleClientId}
-                        >
-                          <GoogleLoginBtn />
-                        </GoogleOAuthProvider>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div >
-                    <div className={styles.iconWrapper}>
-                      <div>
-                        <YouTubeIcon />
-                      </div>
-                    </div>
-                    <div className={styles.explanation}>
-                      <p>
-                        You haven't connected your YouTube Account yet or you aren't authorized. Please authorize our application to access your YouTube Playlists here.
-                      </p>
-                    </div>
-                    <div className={styles.authBtn}>
-                      <GoogleOAuthProvider
-                        clientId={googleClientId}
-                      >
-                        <GoogleLoginBtn scope="https://www.googleapis.com/auth/youtube.force-ssl" />
-                      </GoogleOAuthProvider>
-                    </div>
-                  </div>
-                  <div >
-                    <div className={styles.iconWrapper}>
-                      <div>
-                        <SpotifyLogo />
-                      </div>
-                    </div>
-                    <div className={styles.explanation}>
-                      <p>
-                        You haven't connected your Spotify Account yet or you aren't authorized. Please authorize our application to access your Spotify Playlists here.
-                      </p>
-                    </div>
-                    <div className={styles.authBtn}>
-                      <SpotifyAuthBtn setResponse={setResponse} userInfo={userInfo} redirectURI={`${appOrigin}/dashboard/account`} />
-                    </div>
                   </div>
                 </div>
               </div>
