@@ -130,7 +130,7 @@ function Main({
                       </i>
                     </div>
                     <div className={styles.friendsRankingWrapper}>
-                    <FriendsRankingViewer friendsRanking={friendsRanking} />
+                      <FriendsRankingViewer friendsRanking={friendsRanking} />
                     </div>
                   </div>
                 </div>
@@ -140,6 +140,9 @@ function Main({
                   />
                 </div>
               </div>
+            </div>
+            <div className={styles.boxesContainer}>
+              <AIRecommendation></AIRecommendation>
             </div>
             <div className={styles.boxesContainer}>
               <div className={styles.box} id={styles.planTimeline}>
