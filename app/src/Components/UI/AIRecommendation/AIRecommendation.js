@@ -39,42 +39,37 @@ function AIRecommendation() {
 
 
     setResultEl(
-      Object.entries(advice).map(([key, value], i) => {
-        console.log(advice[key][0]["meal1"]["breakfast"]["item1"]);
-        return (
-          <div key={i}>
-            <h2>Day {i}:</h2>
-            <ul>
-              <li>
-                Breakfast:
-                <ul>
-                  <li>{advice[key][0]["meal1"]["breakfast"]["item1"]}</li>
-                  <li>{advice[key][0]["meal1"]["breakfast"]["item2"]}</li>
-                </ul>
-              </li>
-              <li>
-                Lunch:
-                <ul>
-                  <li>{advice[key][0]["meal2"]["lunch"]["item1"]}</li>
-                  <li>{advice[key][0]["meal2"]["lunch"]["item2"]}</li>
-                </ul>
-              </li>
-              <li>
-                Dinner:
-                <ul>
-                  <li>{advice[key][0]["meal3"]["dinner"]["item1"]}</li>
-                  <li>{advice[key][0]["meal3"]["dinner"]["item2"]}</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        )
-      })
+      <div>
+        {Object.entries(advice).map(([key, value], i) => {
+          return (
+            <div key={i}>
+              <h2>Day {i}:</h2>
+              <br></br>
+              <h4>Breakfast:</h4>
+              <ul>
+                <li>{advice[key][0]["meal1"]["breakfast"]["item1"]}</li>
+                <li>{advice[key][0]["meal1"]["breakfast"]["item2"]}</li>
+              </ul>
+              <h4>Lunch:</h4>
+              <ul>
+                <li>{advice[key][0]["meal2"]["lunch"]["item1"]}</li>
+                <li>{advice[key][0]["meal2"]["lunch"]["item2"]}</li>
+              </ul>
+              <h4>Dinner:</h4>
+              <ul>
+                <li>{advice[key][0]["meal3"]["dinner"]["item1"]}</li>
+                <li>{advice[key][0]["meal3"]["dinner"]["item2"]}</li>
+              </ul>
+              <br></br><br></br>
+            </div>
+          )
+        })}
+      </div>
     )
   }, [advice])
 
   return (
-    <div className={styles.swithCheck}>
+    <div className={styles.AIRecommendation}>
       {
         !pending ?
           <button onClick={fetchAI}>
@@ -84,7 +79,7 @@ function AIRecommendation() {
           <div>
             {
               resultEl ?
-                { resultEl } :
+                resultEl :
                 <div>
                   Loading...
                 </div>
