@@ -24,17 +24,12 @@ import { filterGroups } from "../src/utils/Tool";
 import Themes from "./components/Container/Themes/Themes";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import AccountModal from "./components/UI/AccountModal/AccountModal";
-import ReactGA from 'react-ga4';
 import Tutorial from "./components/UI/Tutorial/Tutorial";
 import NotFound from "./components/Container/404/404";
 import AudioStopper from "./components/UI/AudioStopper/AudioStopper";
 import WelcomeModal from "./components/UI/WelcomeModal/WelcomeModal";
 import AIRecommendation from "./components/UI/AIRecommendation/AIRecommendation";
 import GetAiRecommendationBtn from "./components/UI/GetAiRecommendationBtn/GetAiRecommendationBtn";
-
-if (process.env.REACT_APP_ENV === "production") {
-  ReactGA.initialize(process.env.REACT_APP_TRACKING_ID);
-};
 
 const serverOrigin = process.env.REACT_APP_ORIGIN;
 
@@ -89,15 +84,6 @@ function App() {
 
   const tutorialBoxRef = useRef(null);
   const tutorialTextRef = useRef(null);
-
-  useEffect(() => {
-    ReactGA.send(
-      {
-        hitType: "pageview",
-        page: window.location.pathname + window.location.search,
-      }
-    );
-  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prevState) => !prevState);
