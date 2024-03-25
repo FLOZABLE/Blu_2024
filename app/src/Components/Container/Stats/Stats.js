@@ -241,7 +241,7 @@ function Stats({
             </div>
           </div>
           <div className={styles.bigBox}>
-            <h3>Study Time Trend</h3>
+            <h3>Workout Time Trend</h3>
             <div className={styles.contents}>
               <div className={styles.chartWrapper}>
                 <StudyTrendChart 

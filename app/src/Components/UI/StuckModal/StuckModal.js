@@ -7,7 +7,7 @@ function StuckModal() {
     <div className={styles.StuckModalContainer}>
       <Link to="/dashboard/workout">
         <button>
-          <p>Go Study</p>
+          <p>Go Workout</p>
         </button>
       </Link>
     </div>

@@ -49,7 +49,7 @@ function Header({
 
       tutorialTextRef.current.style.top = top + height + 30 + 'px';
       tutorialTextRef.current.style.right = 30 + 'px';
-      tutorialTextRef.current.innerText = "Click here to start a study session!";
+      tutorialTextRef.current.innerText = "Click here to start a workout session!";
     }
   }, [searchParams]);
 

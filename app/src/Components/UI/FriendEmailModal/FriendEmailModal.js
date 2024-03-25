@@ -45,7 +45,7 @@ function FriendEmailModal({ isOpen, setIsOpen }) {
       </div>
       <p className={styles.title}>Email Invite</p>
       <p className={styles.explanation}>
-        Invite a friend to join you on FLOZABLE and study together!
+        Invite a friend to join you on FLOZABLE and workout together!
       </p>
       <div className={styles.emailContainer}>
         <input type="text" name="" id="" onChange={(e) => {setEmail(e.target.value)}}/>
