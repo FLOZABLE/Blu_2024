@@ -142,9 +142,6 @@ function Main({
               </div>
             </div>
             <div className={styles.boxesContainer}>
-              <AIRecommendation></AIRecommendation>
-            </div>
-            <div className={styles.boxesContainer}>
               <div className={styles.box} id={styles.planTimeline}>
                 <PlanTimeline
                   plans={plans}

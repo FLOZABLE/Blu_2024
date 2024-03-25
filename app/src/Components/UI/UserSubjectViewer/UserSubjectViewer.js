@@ -18,7 +18,7 @@ function UserSubjectViewer({ userInfo }) {
     if (activeSubject) {
       const { name, id, time } = activeSubject;
       if (id !== '0') {
-        setSubjectName(`Studying ${name}`);
+        setSubjectName(`Working out ${name}`);
       } else {
         setSubjectName(`Taking break`);
       }
@@ -30,7 +30,7 @@ function UserSubjectViewer({ userInfo }) {
     const onStudying = (subjectInfo) => {
       const { name, id } = subjectInfo;
       if (id !== '0') {
-        setSubjectName(`Studying ${name}`);
+        setSubjectName(`Working out ${name}`);
       } else {
         setSubjectName(`Taking break`);
       };

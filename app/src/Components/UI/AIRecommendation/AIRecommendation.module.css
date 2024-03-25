@@ -1,4 +1,29 @@
 .AIRecommendation {
-  max-height: 40vh;
-  overflow-y: scroll;
+  height: 40vh;
+  width: 40rem;
+  background-color: #fff;
+  z-index: 3;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: var(--shadow1);
+}
+
+.AIRecommendation .header {
+  display: flex;
+  background-color: var(--purple);
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AIRecommendation .header i {
+  margin-left: auto;
+  margin-right: 1rem;
+  color: #fff;
+}
+
+.AIRecommendation .responseContainer {
+  overflow-y: auto;
+  height: calc(100% - 1rem);
 }

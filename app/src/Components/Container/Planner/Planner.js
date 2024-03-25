@@ -8,12 +8,15 @@ import PlanTimeline from '../../UI/PlanTimeline/PlanTimeline';
 import { useSearchParams } from 'react-router-dom';
 import GoogleLoginBtn from '../../UI/GoogleLoginBtn/GoogleLoginBtn';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import AIWorkout from '../../UI/AIWorkout/AIWorkout';
+import DropDownButton from '../../UI/DropDownButton/DropDownButton';
 
 const googleClientId = process.env.REACT_APP_CLIENT_ID;
 
 function Planner(props) {
   const { subjects, setSubjects, events, setEvents, setResponse, setIsAddSubjectModal, planModal, setPlanModal } = props;
 
+  const [targetMuscle, setTargetMuscle] = useState("Back");
   const [viewMode, setViewMode] = useState('timeGridWeek');
   const [viewDate, setViewDate] = useState(new Date(new Date().setHours(0, 0, 0, 0)));
   const [subject, setSubject] = useState('0000000000');
@@ -59,7 +62,20 @@ function Planner(props) {
               <div className={styles.smallCalendarWrapper}>
                 <SmallCalendar width={"100%"} setViewDate={updateViewDate} planModal={planModal} viewDate={viewDate} PlannerApi={PlannerApi} SmallCalendarRef={SmallCalendarRef} SmallCalendarApi={SmallCalendarApi} />
               </div>
-
+              <AIWorkout targetMuscle={targetMuscle} />
+              <DropDownButton
+                options={{
+                  "Quads": "Quads",
+                  "Core": "Core",
+                  "Forearm": "Forearm",
+                  "Leg": "Leg",
+                  "Back": "Back",
+                  "Ab": "Ab",
+                  "Hip": "Hip"
+                }}
+                setValue={setTargetMuscle}
+                value={targetMuscle}
+              />
               {/* <DropDownButton options={[{name:'Does not repeat', value: 0}, {name: 'Daily', value: 1}, {name: 'Weekly', value: 2}, {name: `Monthly`, value: 3}]} defaultIndex={0} setValue={setSubjectsOptions} /> */}
               <div className={`${styles.planTimelineWrapper}`}>
                 <PlanTimeline plans={events} viewDate={viewDate} viewMode={viewMode} subjects={subjects} setPlans={props.setEvents} setPlanModal={setPlanModal} mode={"planner"} maxHeight='25rem' />

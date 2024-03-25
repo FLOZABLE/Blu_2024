@@ -193,21 +193,6 @@ function PlanTimeline({
           id={"tutorial-1"}
         />
       </div>
-      <br></br>
-      <AIWorkout targetMuscle={targetMuscle}/>
-      <DropDownButton
-        options={{
-          "Quads": "Quads",
-          "Core": "Core",
-          "Forearm": "Forearm",
-          "Leg": "Leg",
-          "Back": "Back",
-          "Ab": "Ab",
-          "Hip": "Hip"
-        }}
-        setValue={setTargetMuscle}
-        value={targetMuscle}
-      />
       {filteredPlans.length ?
         <ul className={`${styles.plans} hiddenScroll`} style={{ maxHeight: maxHeight }}>
           {filteredPlans.map((plan, i) => {

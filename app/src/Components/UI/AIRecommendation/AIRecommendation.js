@@ -1,12 +1,15 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./AIRecommendation.module.css";
 import React, { useEffect, useState } from 'react';
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const serverOrigin = process.env.REACT_APP_ORIGIN;
 
-function AIRecommendation() {
+function AIRecommendation({isOpen, setIsOpen}) {
   const [advice, setAdvice] = useState(null);
   const [pending, setPending] = useState(false);
   const [resultEl, setResultEl] = useState(null);
+  console.log(isOpen)
 
   function fetchAI() {
 
@@ -39,7 +42,7 @@ function AIRecommendation() {
 
 
     setResultEl(
-      <div>
+      <div  className={`${styles.responseContainer} customScroll`} style={{padding: '0rem 2rem'}}>
         {Object.entries(advice).map(([key, value], i) => {
           return (
             <div key={i}>
@@ -69,14 +72,19 @@ function AIRecommendation() {
   }, [advice])
 
   return (
-    <div className={styles.AIRecommendation}>
+    <div className={`${styles.AIRecommendation} modal ${isOpen ? 'open' : ''}`}>
+      <div className={styles.header}>
+        <i onClick={() => {setIsOpen(false)}}>
+          <FontAwesomeIcon icon={faXmark} />
+        </i>
+      </div>
       {
         !pending ?
           <button onClick={fetchAI}>
             Ask for advice
           </button>
           :
-          <div>
+          <div className={`${styles.responseContainer} customScroll`}>
             {
               resultEl ?
                 resultEl :

@@ -1,4 +1,5 @@
 .AIRecommendation {
-  max-height: 40vh;
-  overflow-y: scroll;
+  max-height: 30vh;
+  overflow-y: auto;
+  margin-top: 3rem;
 }

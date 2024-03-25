@@ -1,0 +1,39 @@
+.recmBtn {
+  position: fixed;
+  right: 10rem;
+  bottom: 3rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 2rem;
+  background-color: #fff;
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+}
+
+.recmBtn i {
+  font-size: 2rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.recmBtn .hoverEl {
+  position: absolute;
+  background-color: black;
+  color: #fff;
+  white-space: nowrap;
+  left: 50%;
+  border-radius: 1rem;
+  opacity: 0;
+  transition: .3s ease-in-out opacity;
+  transform: translateX(-50%);
+  padding: 0.3rem 1rem;
+  bottom: -1.15rem;
+}
+
+.recmBtn:hover .hoverEl {
+  opacity: 1;
+}

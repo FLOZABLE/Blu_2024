@@ -127,10 +127,6 @@
 }
 
 @media (max-width: 87.5rem) {
-  .CreateGroupModal {
-    width: 26.875rem;
-  }
-
   .CreateGroupModal .title input {
     font-size: 1.25rem;
   }

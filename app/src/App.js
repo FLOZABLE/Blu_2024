@@ -29,6 +29,8 @@ import Tutorial from "./components/UI/Tutorial/Tutorial";
 import NotFound from "./components/Container/404/404";
 import AudioStopper from "./components/UI/AudioStopper/AudioStopper";
 import WelcomeModal from "./components/UI/WelcomeModal/WelcomeModal";
+import AIRecommendation from "./components/UI/AIRecommendation/AIRecommendation";
+import GetAiRecommendationBtn from "./components/UI/GetAiRecommendationBtn/GetAiRecommendationBtn";
 
 if (process.env.REACT_APP_ENV === "production") {
   ReactGA.initialize(process.env.REACT_APP_TRACKING_ID);
@@ -50,6 +52,7 @@ function App() {
   const [plans, setPlans] = useState([]);
   const [otherGroups, setOtherGroups] = useState([]);
   const [likedGroups, setLikedGroups] = useState([]);
+  const [aiRecommendationModal, setAiRecommendationModal] = useState(false);
   //const [planModal, setPlanModal] = useState(false);
 
   const [isAddSubjectModal, setIsAddSubjectModal] = useState(false);
@@ -246,6 +249,13 @@ function App() {
   return (
     <Router>
       <AudioStopper musicFiles={musicFiles} />
+      <AIRecommendation 
+        isOpen={aiRecommendationModal}
+        setIsOpen={setAiRecommendationModal}
+      />
+      <GetAiRecommendationBtn 
+        setIsOpen={setAiRecommendationModal}
+      />
       <TopNotification
         response={response}
       />

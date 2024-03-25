@@ -79,6 +79,7 @@ function Groups({
         isOpen={isCreateNewGroup}
         setIsOpen={setIsCreateNewGroup}
         setCreateGroupResponse={setResponse}
+        setMyGroups={setMyGroups}
       />
       <GroupPwModal
         myGroups={myGroups}

@@ -21,7 +21,7 @@ import OptionToggleBtn from "../OptionToggleBtn/OptionToggleBtn";
 
 const serverOrigin = process.env.REACT_APP_ORIGIN;
 
-function CreateGroupModal({ isOpen, setIsOpen, setCreateGroupResponse }) {
+function CreateGroupModal({ isOpen, setIsOpen, setCreateGroupResponse, setMyGroups }) {
   const [name, setName] = useState("");
   const [maxMembers, setMaxMembers] = useState(10);
   const [color, setColor] = useState("");
@@ -77,6 +77,7 @@ function CreateGroupModal({ isOpen, setIsOpen, setCreateGroupResponse }) {
           setVisibility(1);
           setPassword("");
           setGoalHr(3);
+          setMyGroups((myGroups) => { return [...myGroups, data.data] });
         };
       })
       .catch((error) => console.error(error));

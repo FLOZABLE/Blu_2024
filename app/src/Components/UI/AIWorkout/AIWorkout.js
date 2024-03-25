@@ -63,12 +63,12 @@ function AIWorkout({targetMuscle}) {
   }, [advice])
 
   return (
-    <div className={styles.AIRecommendation}>
+    <div className={`customScroll ${styles.AIRecommendation}`}>
       {
         !pending ?
           <div>
             <button onClick={fetchAI}>
-              AI Generated Workout
+              Genrate AI Workout
             </button>
           </div>
           :

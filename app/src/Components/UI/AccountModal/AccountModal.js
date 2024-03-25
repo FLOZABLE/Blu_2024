@@ -167,7 +167,7 @@ function AccountModal({ isOpened, setIsOpened, setResponse, bringAccountInfo, br
                     if (data.success) {
                       bringAccountInfo();
                       bringSubjects();
-                      navigate('/dashboard?welcome=true');
+                      navigate('/dashboard');
                     }
                   })
                   .catch((error) => console.error(error));
