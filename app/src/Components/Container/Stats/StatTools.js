@@ -51,6 +51,7 @@ function updateSubjectsTrendChart(subjects, viewDate, type, change) {
   if (diff > -7) {
     datumPoint = now.minus({ [change]: 6 })
   }
+
   for (let i = 0; i < 7; i++) {
     const date = datumPoint.plus({ [change]: i });
     const label = `${date.month}/${date.day}`;
@@ -67,7 +68,6 @@ function updateSubjectsTrendChart(subjects, viewDate, type, change) {
 function updateRankingTrend(rankings) {
   const data = [];
   const copiedArr = JSON.parse(JSON.stringify(rankings));
-  console.log(copiedArr)
   copiedArr.data.map(rankingData => {
     const { date, ranking } = rankingData;
     const label = DateTime.fromSeconds(date).toISODate();

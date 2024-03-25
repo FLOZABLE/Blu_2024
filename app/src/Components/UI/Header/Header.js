@@ -8,23 +8,15 @@ import styles from "./Header.module.css";
 import PlanTimeline from "../PlanTimeline/PlanTimeline";
 import { secondConverter } from "../../../utils/Tool";
 import ChatModalBtn from "../ChatModalBtn/ChatModalBtn";
-import { ButtonLogout, HeaderBook, HeaderFocus, HeaderMeteor, HeaderMonitor, IconMessage, IconBell, IconBook, IconBxHome, IconBxMessageSquareDetail, IconClipboardOutline, IconEyeOutline, IconIconStar, IconMonitor, IconUser } from "../../../utils/svgs";
+import { ButtonLogout, HeaderBook, HeaderFocus, HeaderMeteor, HeaderMonitor, IconMessage, IconBell, IconBook, IconBxHome, IconBxMessageSquareDetail, IconClipboardOutline, IconEyeOutline, IconIconStar, IconMonitor, IconUser, Arm } from "../../../utils/svgs";
 import StudyBtn from "../StudyBtn/StudyBtn";
 
 const serverOrigin = process.env.REACT_APP_ORIGIN;
 
 function Header({
   setIsChatModal,
-  setPlans,
-  setPlanModal,
-  planModal,
-  plans,
   subjects,
-  isSidebarHovered,
   userInfo,
-  mode,
-  isSidebarOpen,
-  onToggleSidebar,
   totalNewMsg,
   setIsNotificationModal,
   notifications,
@@ -146,24 +138,11 @@ function Header({
         <div className={styles.headerEl}>
           <div>
             <i>
-              <HeaderBook />
+              <Arm />
             </i>
             <div>
               <p>Today total</p>
               <strong>{totalStudied}</strong>
-            </div>
-          </div>
-        </div>
-        <div className={styles.divider}>
-        </div>
-        <div className={styles.headerEl}>
-          <div>
-            <i>
-              <HeaderMonitor />
-            </i>
-            <div>
-              <p>App Usage</p>
-              <strong>0 hour</strong>
             </div>
           </div>
         </div>

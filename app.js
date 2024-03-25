@@ -52,6 +52,7 @@ const groupsAPI = require("./API/groups");
 const planAPI = require("./API/plan");
 const videosAPI = require("./API/videos");
 const workoutAPI = require("./API/workout");
+const rankingAPI = require("./API/ranking");
 
 //app.use(logger('dev'));
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -69,6 +70,7 @@ app.use("/groups", groupsAPI);
 app.use("/plan", planAPI);
 app.use("/videos", videosAPI);
 app.use("/workout", workoutAPI);
+app.use("/ranking", rankingAPI);
 
 
 app.get('/dashboard*', (req, res) => {

@@ -213,7 +213,7 @@ async function msgQueue(roomId, msgInfo) {
  */
 async function activeWorkoutCache(userId) {
   try {
-    let activeWorkout = await redisClient.hGet(`user:${userId}`, `ActiveWorkout`);
+    let activeWorkout = await redisClient.hGet(`user:${userId}`, `activeWorkout`);
     activeWorkout = activeWorkout ? { id: activeWorkout.split(':')[0], time: activeWorkout.split(':')[1] } : false;
     return activeWorkout;
   } catch (err) {
