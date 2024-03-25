@@ -89,7 +89,7 @@ function AIRecommendation({isOpen, setIsOpen}) {
               resultEl ?
                 resultEl :
                 <div>
-                  Loading...
+                  Loading...<br/>This takes about 30 seconds
                 </div>
             }
           </div>

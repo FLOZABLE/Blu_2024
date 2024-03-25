@@ -188,7 +188,7 @@ function User({ groups, setResponse, setOtherGroups, setMyGroups, myGroups, myIn
           <div className={styles.boxContainer}>
             <div className={styles.box}>
               <div className={styles.title}>
-                Study Trend
+                Workout Trend
               </div>
               <div className={styles.chartContainer}>
                 <StudyTrendChart
