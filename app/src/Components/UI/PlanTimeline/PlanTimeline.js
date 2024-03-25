@@ -20,6 +20,8 @@ import { subjectIcons, warmColorsList, workoutIcons } from "../../../constant";
 import BlobBtn from "../BlobBtn/BlobBtn";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 import { useSearchParams } from "react-router-dom";
+import AIWorkout from "../AIWorkout/AIWorkout";
+import DropDownButton from "../DropDownButton/DropDownButton";
 
 const serverOrigin = process.env.REACT_APP_ORIGIN;
 
@@ -39,6 +41,7 @@ function PlanTimeline({
   const [filteredPlans, setFilteredPlans] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isTutorial, setIsTutorial] = useState(false);
+  const [targetMuscle, setTargetMuscle] = useState("Back");
   const addBtnRef = useRef(null);
 
   const togglePlan = (plan) => {
@@ -190,6 +193,21 @@ function PlanTimeline({
           id={"tutorial-1"}
         />
       </div>
+      <br></br>
+      <AIWorkout targetMuscle={targetMuscle}/>
+      <DropDownButton
+        options={{
+          "Quads": "Quads",
+          "Core": "Core",
+          "Forearm": "Forearm",
+          "Leg": "Leg",
+          "Back": "Back",
+          "Ab": "Ab",
+          "Hip": "Hip"
+        }}
+        setValue={setTargetMuscle}
+        value={targetMuscle}
+      />
       {filteredPlans.length ?
         <ul className={`${styles.plans} hiddenScroll`} style={{ maxHeight: maxHeight }}>
           {filteredPlans.map((plan, i) => {
